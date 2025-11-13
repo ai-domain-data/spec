@@ -1,0 +1,24 @@
+{
+  "name": "@ai-domain-data/cli",
+  "version": "0.1.0",
+  "description": "Local tooling for working with the AI Domain Data Standard.",
+  "type": "module",
+  "bin": {
+    "aidd": "./bin/aidd.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "scripts": {
+    "build": "echo \"Nothing to build\"",
+    "test": "node ./bin/aidd.js --help"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}
+

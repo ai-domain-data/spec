@@ -1,0 +1,21 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+site/.vite/
+site/dist/
+packages/**/dist/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Phase 4 workspaces (kept out of this repo snapshot)
+cloudflare-worker/
+github-action/
+wordpress-plugin/
+
+# Project planning docs (not tracked in repo)
+AI Domain Data Standard — v0.1 Proj.md
+ECOSYSTEM INTEGRATIONS.md
+SAAS LAYER & ADVANCED.md
+
