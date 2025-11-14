@@ -20,8 +20,8 @@ AI assistants frequently misrepresent or hallucinate details about domains—imp
 ### Solution
 The AI Domain Data Standard defines a single, predictable, canonical JSON document—controlled by the domain owner—that can be discovered via:
 
-- a DNS TXT record (`_ai.<domain>`)
-- a well-known HTTPS endpoint (`/.well-known/ai.json`)
+- a DNS TXT record (`_ai.<domain>` TXT with `ai-json=<base64(JSON)>`)
+- the primary HTTPS endpoint `https://<domain>/.well-known/domain-profile.json`
 
 This gives AI systems a canonical, domain-controlled source of truth with minimal complexity and zero dependency on any central provider.
 
@@ -30,7 +30,7 @@ This gives AI systems a canonical, domain-controlled source of truth with minima
 1. Create JSON that matches the v0.1 schema (see examples below).
 2. Host the JSON in two places so AI clients can locate it:
    - DNS TXT record `_ai.<domain>` containing a Base64-encoded payload.
-   - HTTPS endpoint `https://<domain>/.well-known/ai.json` serving the plain JSON.
+   - HTTPS endpoint `https://<domain>/.well-known/domain-profile.json` serving the plain JSON (the only HTTPS filename supported in v0.1).
 3. Tools in this repository (generator, checker, CLI, resolver SDK) help create, validate, and consume the records.
 
 ## Publish the DNS TXT record
@@ -60,16 +60,16 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
 - Trim trailing whitespace from the JSON before encoding, but do not change key order or introduce additional formatting.
 - The generator and CLI in this repository follow these rules; custom tooling must do the same to remain interoperable.
 
-## Host `.well-known/ai.json`
+## Host `.well-known/domain-profile.json`
 
-1. Place the same JSON payload at the path `/.well-known/ai.json`.
+1. Place the same JSON payload at the path `/.well-known/domain-profile.json`.
 2. Serve the file with `Content-Type: application/json; charset=utf-8`.
 3. Ensure the file is publicly accessible over HTTPS.
 
 ### Example using static hosting
 
 ```
-/.well-known/ai.json
+/.well-known/domain-profile.json
 {
   "spec": "https://ai-domain-data.org/spec/v0.1",
   "name": "Example Publisher",
@@ -80,6 +80,8 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
   "entity_type": "publication"
 }
 ```
+
+> **Note:** Early internal drafts experimented with `/.well-known/ai.json` and `/.well-known/domain.json`, but v0.1 standardizes on `/.well-known/domain-profile.json` to avoid collisions with other AI manifest formats. The DNS `_ai.<domain>` TXT record with `ai-json=<base64(JSON)>` remains the canonical discovery signal.
 
 ## JSON examples
 
@@ -148,10 +150,11 @@ Key rules:
 
 Implementations MUST follow this sequence when resolving AI Domain Data:
 
-1. Fetch `https://<domain>/.well-known/ai.json` over HTTPS.
-2. If the HTTPS response is missing, unreachable, or fails schema validation, fetch the DNS TXT record at `_ai.<domain>`.
-3. If both sources fail, treat the domain as having no AI Domain Data record.
-4. If both sources are present but disagree, the HTTPS payload is authoritative for v0.1; DNS serves as a fallback cache.
+1. Attempt an HTTPS GET to `https://<domain>/.well-known/domain-profile.json`.
+2. If the HTTPS payload is missing, non-200, unparsable, or fails schema validation, resolve `_ai.<domain>` TXT and decode the `ai-json=<base64>` value.
+3. If neither HTTPS nor DNS produces a valid record, treat the domain as having no AI Domain Data record (`source: "none"`, `valid: false`).
+4. If both sources are present but disagree, the HTTPS payload from `/.well-known/domain-profile.json` is authoritative for v0.1; DNS serves as a fallback cache.
+5. No other `.well-known` filenames are recognized in v0.1.
 
 ## Tooling overview
 
@@ -186,7 +189,7 @@ No. Any domain owner—creators, nonprofits, open-source maintainers, communitie
 - v0.1 records are intentionally public; do not place sensitive information in the payload.
 - Integrity is not guaranteed yet—DNS and HTTPS responses can be spoofed by attackers with network control. Future versions may add optional signatures to mitigate this.
 - DNS TXT records can be poisoned on unsecured resolvers. Where possible, validate over HTTPS first and prefer resolvers that support DNSSEC (even though the spec does not require DNSSEC today).
-- Always serve `/.well-known/ai.json` over HTTPS. Enforce HSTS on your domain so clients downgrade less often.
+- Always serve `/.well-known/domain-profile.json` over HTTPS. Enforce HSTS on your domain so clients downgrade less often.
 - Treat resolver output as untrusted input—validate against the schema every time.
 
 **Do I need to sign or encrypt the data?**  

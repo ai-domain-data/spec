@@ -1,4 +1,5 @@
 import { FormEvent, useMemo, useState } from "react";
+import { Buffer } from "buffer";
 import { CopyButton } from "@components/CopyButton";
 
 type FormValues = {
@@ -48,17 +49,20 @@ function chunkString(value: string, size: number): string[] {
 
 function formatDnsRecord(base64Payload: string): {
   record: string;
-  quotedSegments: string[];
+  segments: string[];
 } {
   const chunks = chunkString(base64Payload, 255);
   if (chunks.length === 0) {
-    return { record: '_ai.example.com TXT ("ai-json=")', quotedSegments: ['"ai-json="'] };
+    return {
+      record: "_ai.example.com TXT ai-json=",
+      segments: ["ai-json="]
+    };
   }
 
   const [first, ...rest] = chunks;
-  const segments = [`"ai-json=${first}"`, ...rest.map((chunk) => `"${chunk}"`)];
-  const record = `_ai.example.com TXT (${segments.join(" ")})`;
-  return { record, quotedSegments: segments };
+  const segments = [`ai-json=${first}`, ...rest];
+  const record = `_ai.example.com TXT ${segments.join(" ")}`;
+  return { record, segments };
 }
 
 const initialValues: FormValues = {
@@ -320,7 +324,7 @@ export function Generator() {
       {hasSubmitted && !hasErrors && (
         <div className="output-stack">
           <div className="output-block">
-            <strong>JSON payload (for /.well-known/ai.json)</strong>
+            <strong>JSON payload (for /.well-known/domain-profile.json)</strong>
             <pre>{jsonString}</pre>
             <div className="actions">
               <CopyButton label="Copy JSON" value={jsonString} />
@@ -335,10 +339,13 @@ export function Generator() {
               multiple quoted segments—already handled in this output.
             </p>
             <pre>{dnsValue.record}</pre>
-            {dnsValue.quotedSegments.length > 1 && (
+            {dnsValue.segments.length > 1 && (
               <p className="helper-text">
                 Some DNS providers copy segments individually. If prompted, paste
-                each quoted string in order: {dnsValue.quotedSegments.join(" ")}.
+                each value in order:{" "}
+                {dnsValue.segments.map((segment, index) => (
+                  <code key={segment}>{segment}{index < dnsValue.segments.length - 1 ? ", " : ""}</code>
+                ))}.
               </p>
             )}
             <div className="actions">

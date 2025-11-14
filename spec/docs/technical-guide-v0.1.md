@@ -65,21 +65,21 @@ Key considerations:
 
 DNS distribution makes the data accessible even if the HTTPS endpoint is unavailable. It also lets resolvers work without relying on web hosting (e.g., for parked domains or edge deployments).
 
-### 2.2 HTTPS `.well-known/ai.json`
+### 2.2 HTTPS `.well-known/domain-profile.json`
 
-Serve the plain JSON document at `https://<domain>/.well-known/ai.json` with `Content-Type: application/json; charset=utf-8`.
+Serve the plain JSON document at `https://<domain>/.well-known/domain-profile.json` with `Content-Type: application/json; charset=utf-8`.
 
 - The `.well-known` path is already recognized by search engines and identity providers.
 - Hosting the JSON over HTTPS removes size limitations and simplifies debugging.
 - Ensure caching respects your update cadence. A modest `Cache-Control: public, max-age=300` balance works well.
 
-The standard encourages publishing both DNS and HTTPS endpoints. Well-behaved consumers attempt HTTPS first for clarity, then fall back to DNS. Implementations can document their precedence.
+The standard encourages publishing both DNS and HTTPS endpoints. Well-behaved consumers attempt `/.well-known/domain-profile.json` first for clarity, then fall back to DNS. Implementations can document their precedence.
 
 ### 2.3 Resolution precedence
 
 All resolvers targeting v0.1 MUST follow this order:
 
-1. Fetch `https://<domain>/.well-known/ai.json` over HTTPS.
+1. Fetch `https://<domain>/.well-known/domain-profile.json` over HTTPS.
 2. If the HTTPS resource is unavailable, returns a non-success status, or fails schema validation, query the `_ai.<domain>` TXT record.
 3. If both channels fail, treat the domain as having no AI Domain Data record.
 4. If both channels respond but contain conflicting payloads, the HTTPS payload is authoritative for v0.1. DNS is considered a fallback cache and should only be trusted when HTTPS is missing.
@@ -104,7 +104,7 @@ No network calls or persistence occur. Everything runs locally in the browser so
 
 The checker accepts a domain and performs two fetches:
 
-1. `https://<domain>/.well-known/ai.json`
+1. `https://<domain>/.well-known/domain-profile.json`
 2. DNS TXT lookup for `_ai.<domain>`
 
 It reports whether each source is present, whether the payload parses, and whether it validates against `schema-v0.1.json`. The tool highlights the source used for validation and surfaces raw JSON to aid debugging. Because DNS queries vary across environments, the checker handles common failures gracefully and reports diagnostics.
@@ -145,7 +145,7 @@ Once the core spec gains traction, Phase 4 introduces optional ecosystem helpers
 
 - **WordPress plugin** – Admin UI that stores the JSON file and prints DNS instructions.
 - **GitHub Action** – Pull-request validation using `aidd`.
-- **Cloudflare Worker template** – CDN-ready `.well-known/ai.json` service backed by KV.
+- **Cloudflare Worker template** – CDN-ready `.well-known/domain-profile.json` service backed by KV.
 
 These tools stay open-source and self-hosted. They exist to reduce friction, especially for non-technical teams, without forcing anyone into a centralized service.
 

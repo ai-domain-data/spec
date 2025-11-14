@@ -124,7 +124,7 @@ async function fetchHttp(
     };
   }
 
-  const url = `https://${domain}/.well-known/ai.json`;
+  const url = `https://${domain}/.well-known/domain-profile.json`;
 
   try {
     const response = await withTimeout(

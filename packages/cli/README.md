@@ -40,12 +40,14 @@ aidd validate [--path=./ai.json]
 
 Validate the record and print two ready-to-publish payloads:
 
-- Pretty-printed JSON for `/.well-known/ai.json`
+- Pretty-printed JSON for `/.well-known/domain-profile.json`
 - DNS TXT record for `_ai.<domain>` with 255-character-safe Base64 segmentation
 
 ```
 aidd emit [--path=./ai.json]
 ```
+
+Save the JSON output to `https://<domain>/.well-known/domain-profile.json` and optionally mirror it via `_ai.<domain>` TXT with `ai-json=<base64(JSON)>`.
 
 The emitted DNS record is already split into quoted chunks of at most 255 characters, so you can paste it directly into providers that expect segmented TXT inputs.
 

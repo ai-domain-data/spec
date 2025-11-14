@@ -17,16 +17,14 @@ This guide helps domain owners and communications teams publish AI Domain Data r
 
 Create a single source of truth for the schema fields:
 
-| Field        | Source of truth                                    |
-|--------------|----------------------------------------------------|
-| 
-ame       | Brand or legal entity registry                     |
-| description| Approved messaging / SEO summary (1–2 sentences)   |
-| website    | Canonical HTTPS URL                                |
-| logo       | CDN-hosted SVG/PNG consistent with brand usage     |
-| contact    | Public support email or contact form               |
-| entity_type (optional) | Classification (usiness, log, personal, 
-onprofit, etc.) |
+| Field | Source of truth |
+| --- | --- |
+| name | Brand or legal entity registry |
+| description | Approved messaging / SEO summary (1–2 sentences) |
+| website | Canonical HTTPS URL |
+| logo | CDN-hosted SVG/PNG consistent with brand usage |
+| contact | Public support email or contact form |
+| entity_type (optional) | Classification (business, blog, personal, nonprofit, etc.) |
 
 Ensure stakeholders sign off on these values before publishing.
 
@@ -37,7 +35,7 @@ Ensure stakeholders sign off on these values before publishing.
 Options:
 
 - **AI Record Generator** – Web form with validation and copy-to-clipboard helpers.
-- **CLI (idd init)** – Generates a starter i.json file you can track in source control.
+- **CLI (`aidd init`)** – Generates a starter `ai.json` file you can track in source control.
 - **Internal automation** – Integrate the schema into your CMS or metadata pipeline.
 
 Requirements:
@@ -48,10 +46,12 @@ Requirements:
 
 ---
 
-## 4. Publish via HTTPS (/.well-known/ai.json)
+The AI Domain Data record is served at `https://<domain>/.well-known/domain-profile.json` and optionally mirrored in DNS at `_ai.<domain>` TXT with `ai-json=<base64(JSON)>`.
+
+## 4. Publish via HTTPS (/.well-known/domain-profile.json)
 
 1. Upload the JSON to your origin or CDN.
-2. Serve it at https://<domain>/.well-known/ai.json.
+2. Serve it at https://<domain>/.well-known/domain-profile.json.
 3. Set Content-Type: application/json; charset=utf-8.
 4. Enforce HTTPS (HSTS recommended).
 5. Use a conservative cache policy (e.g., Cache-Control: public, max-age=300).
@@ -64,7 +64,7 @@ If .well-known is not directly accessible, configure a rewrite or redirect to th
 
 1. Minify the JSON (no whitespace/newlines).
 2. Base64-encode the UTF-8 payload using the standard alphabet (no URL-safe variant).
-3. Create a TXT record at _ai.<domain> with the value i-json=<base64>.
+3. Create a TXT record at _ai.<domain> with the value ai-json=<base64>.
 4. Split long payloads into ≤255-character quoted segments.
 
 Example:
@@ -80,7 +80,7 @@ Propagation time depends on your DNS provider’s TTL.
 ## 6. Validate before announcing adoption
 
 - **AI Visibility Checker** – Confirms both sources, highlights the canonical payload, and flags schema issues.
-- **CLI (idd validate, idd emit)** – Fits into CI/CD pipelines or release workflows.
+- **CLI (`aidd validate`, `aidd emit`)** – Fits into CI/CD pipelines or release workflows.
 - **Resolver SDK** – Integrate with monitoring/observability to watch for regressions.
 
 Checklist:
@@ -107,14 +107,14 @@ Checklist:
 | Revalidate DNS + HTTPS endpoints        | Quarterly or after infra changes|
 | Monitor github.com/ai-domain-data/spec| Subscribe to releases/issues   |
 
-Store i.json in source control or a CMS so revisions are auditable. When the spec publishes a new version, update the spec field and adopt any new requirements.
+Store `ai.json` in source control or a CMS so revisions are auditable. When the spec publishes a new version, update the spec field and adopt any new requirements.
 
 ---
 
 ## 9. Support channels
 
 - Standards/editorial questions: dev@ascendingwebservices.com
-- Security-sensitive disclosures: security@ai-domain-data.org
+- Security-sensitive disclosures: security@ascendingwebservices.org
 - Issues & proposals: https://github.com/ai-domain-data/spec
 
 When reaching out, include:

@@ -86,14 +86,14 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
         <h3>Resolution Order</h3>
         <ol>
           <li>
-            <strong>Primary Source:</strong> Retrieve <code>https://&lt;domain&gt;/.well-known/ai.json</code>.
+            <strong>Primary Source:</strong> Retrieve <code>https://&lt;domain&gt;/.well-known/domain-profile.json</code>.
           </li>
           <li>
             <strong>Secondary Source:</strong> Query the DNS TXT record at <code>_ai.&lt;domain&gt;</code>.
           </li>
           <li>
             <strong>Authoritative Rule:</strong> When both sources exist, the HTTPS document served at{" "}
-            <code>/.well-known/ai.json</code> is authoritative.
+            <code>/.well-known/domain-profile.json</code> is authoritative.
           </li>
         </ol>
       </section>

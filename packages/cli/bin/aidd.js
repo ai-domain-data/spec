@@ -151,9 +151,12 @@ async function handleEmit(targetPath) {
   const base64Payload = encodeBase64(compact);
   const dnsRecord = formatDnsRecord(base64Payload);
 
-  console.log("=== /.well-known/ai.json ===");
+  console.log("Save this JSON as https://<domain>/.well-known/domain-profile.json");
+  console.log("=== /.well-known/domain-profile.json ===");
   console.log(prettyJson);
-  console.log("\n=== _ai.<domain> TXT value ===");
+  console.log("\nOptionally mirror the same payload via DNS:");
+  console.log(`- Create _ai.<domain> TXT with ai-json=<base64(JSON)>`);
+  console.log("=== _ai.<domain> TXT value ===");
   console.log(dnsRecord);
 }
 
@@ -168,7 +171,7 @@ Usage:
 Commands:
   init      Create a starter ai.json file with placeholder values.
   validate  Validate ai.json against the v0.1 schema. Exit code 0 on success.
-  emit      Validate then print the JSON and recommended DNS TXT payload.
+  emit      Validate then print the JSON for /.well-known/domain-profile.json and the DNS TXT payload.
 
 Options:
   --path, -p   Path to the ai.json file (default: ./ai.json)

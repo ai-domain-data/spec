@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { Buffer } from "buffer";
 import { CopyButton } from "@components/CopyButton";
 
 type ValidationResult = {
@@ -99,7 +100,7 @@ function validatePayload(payload: unknown): ValidationResult {
 }
 
 async function fetchHttp(domain: string): Promise<SourceState> {
-  const endpoint = `https://${domain}/.well-known/ai.json`;
+  const endpoint = `https://${domain}/.well-known/domain-profile.json`;
   try {
     const response = await fetch(endpoint, {
       headers: { Accept: "application/json" },
@@ -268,8 +269,11 @@ export function Checker() {
       {error && <p className="error-text">{error}</p>}
 
       <div className="output-stack">
-        {renderStatus("AI metadata found via HTTP?", state.http.found)}
-        {renderStatus("AI metadata found via DNS?", state.dns.found)}
+        {renderStatus(
+          "Domain profile via HTTPS (/.well-known/domain-profile.json)?",
+          state.http.found
+        )}
+        {renderStatus("AI metadata via DNS (_ai.<domain>)?", state.dns.found)}
         {renderStatus(
           "Schema valid?",
           state.chosenSource === "none"
@@ -294,7 +298,9 @@ export function Checker() {
               ))}
             </ul>
           ) : (
-            <p className="helper-text">Valid JSON detected at /.well-known/ai.json.</p>
+            <p className="helper-text">
+              Valid JSON detected at /.well-known/domain-profile.json.
+            </p>
           )}
           {state.http.raw && <pre>{state.http.raw}</pre>}
           {state.http.raw && (
