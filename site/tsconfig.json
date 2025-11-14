@@ -15,7 +15,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@generator/*": ["generator/*"],
+      "@checker/*": ["checker/*"],
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"]
+    }
   },
   "include": ["src", "generator", "checker", "components"],
   "references": [{ "path": "./tsconfig.node.json" }]
