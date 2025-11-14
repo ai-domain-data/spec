@@ -9,6 +9,23 @@ package-lock.json
 pnpm-lock.yaml
 yarn.lock
 
+# Public build artifacts
+**/.next/
+**/build/
+**/coverage/
+**/.turbo/
+**/.cache/
+
+# Editor and OS cruft
+.idea/
+.vscode/
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
 # Phase 4 workspaces (kept out of this repo snapshot)
 cloudflare-worker/
 github-action/
