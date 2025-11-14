@@ -1,0 +1,10 @@
+{
+  "spec": "https://ai-domain-data.org/spec/v0.1",
+  "name": "AI Domain Data Standard",
+  "description": "Open, vendor-neutral standard for publishing authoritative domain identity data for AI systems, search engines, and automated agents. Provides a simple JSON profile format and free tooling for generation, validation, and discovery.",
+  "website": "https://www.ai-domain-data.org/",
+  "logo": "https://www.ai-domain-data.org/favicon.png",
+  "contact": "info@ascendingwebservices.com",
+  "entity_type": "project"
+}
+
