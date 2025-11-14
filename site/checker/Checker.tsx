@@ -286,6 +286,11 @@ export function Checker() {
             {state.chosenSource.toUpperCase()}
           </span>
         </div>
+        <p className="helper-text">
+          If HTTPS keeps showing “No,” ensure your server allows cross-origin
+          requests (e.g., add <code>Access-Control-Allow-Origin: *</code> or a
+          specific origin) for <code>/.well-known/domain-profile.json</code>.
+        </p>
       </div>
 
       {state.http.found && (
