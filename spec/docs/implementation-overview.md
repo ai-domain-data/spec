@@ -29,13 +29,13 @@ Use this before announcing adoption or turning on downstream integrations.
 ## 3. CLI – @ai-domain-data/cli (`aidd`)
 
 - Commands:
-  - `aidd init` – scaffold `ai.json` with placeholders
+- `aidd init` – scaffold `domain-profile.json` with placeholders
   - `aidd validate` – schema-check an existing file
   - `aidd emit` – output recommended DNS TXT and HTTPS payload
 - Audience: Developers, CI/CD, release engineering
 - Installation: `npm install --global @ai-domain-data/cli` or run via `npx @ai-domain-data/cli aidd --help`
 
-Use the CLI to automate checks, gate pull requests, or keep `ai.json` under version control.
+Use the CLI to automate checks, gate pull requests, or keep `domain-profile.json` under version control.
 
 ---
 
@@ -53,8 +53,8 @@ Embed this library when you need to consume AI Domain Data records programmatica
 
 - Name: `ai-domain-data-validate`
 - Behavior: Runs `aidd validate` during push/pull_request
-- Inputs: path to `ai.json` (default `ai.json`)
-- Audience: Repositories that store `ai.json` alongside code/content
+- Inputs: path to `domain-profile.json` (default `domain-profile.json`)
+- Audience: Repositories that store `domain-profile.json` alongside code/content
 
 Use this to block merges when the AI Domain Data record drifts from the schema.
 
@@ -62,8 +62,8 @@ Use this to block merges when the AI Domain Data record drifts from the schema.
 
 ## 6. WordPress Plugin (Phase 4 deliverable)
 
-- Features: Admin page under **Settings → AI Domain Data**, form-driven creation of `ai.json`, DNS instructions, local tester
-- Storage: Writes to `wp-content/uploads/ai-domain-data/ai.json` (or `/.well-known/domain-profile.json` if configured)
+- Features: Admin page under **Settings → AI Domain Data**, form-driven creation of `domain-profile.json`, DNS instructions, local tester
+- Storage: Writes to `wp-content/uploads/ai-domain-data/domain-profile.json` (or `/.well-known/domain-profile.json` if configured)
 
 Ideal for site owners who prefer a CMS-native workflow.
 
@@ -79,7 +79,7 @@ Ideal for site owners who prefer a CMS-native workflow.
 ## 8. Governance & versioning
 
 - Track official updates at https://github.com/ai-domain-data/spec
-- Treat `ai.json` as a configuration artifact; review changes like any other metadata
+- Treat `domain-profile.json` as a configuration artifact; review changes like any other metadata
 - Use CLI/Action/SDK to ensure new versions remain compliant when the spec evolves
 
 Adopting this tooling suite keeps the standard lightweight and self-hosted while providing clear upgrade paths for future versions.

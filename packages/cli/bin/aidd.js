@@ -35,7 +35,7 @@ function parseArgs(argv) {
 }
 
 function resolveTargetPath(customPath) {
-  return path.resolve(process.cwd(), customPath ?? "ai.json");
+  return path.resolve(process.cwd(), customPath ?? "domain-profile.json");
 }
 
 function encodeBase64(input) {
@@ -164,17 +164,17 @@ function printHelp() {
   console.log(`aidd - AI Domain Data CLI v0.1
 
 Usage:
-  aidd init [--path=./ai.json] [--force]
-  aidd validate [--path=./ai.json]
-  aidd emit [--path=./ai.json]
+  aidd init [--path=./domain-profile.json] [--force]
+  aidd validate [--path=./domain-profile.json]
+  aidd emit [--path=./domain-profile.json]
 
 Commands:
-  init      Create a starter ai.json file with placeholder values.
-  validate  Validate ai.json against the v0.1 schema. Exit code 0 on success.
+  init      Create a starter domain-profile.json file with placeholder values.
+  validate  Validate domain-profile.json against the v0.1 schema. Exit code 0 on success.
   emit      Validate then print the JSON for /.well-known/domain-profile.json and the DNS TXT payload.
 
 Options:
-  --path, -p   Path to the ai.json file (default: ./ai.json)
+  --path, -p   Path to the domain-profile.json file (default: ./domain-profile.json)
   --force      Overwrite the file when running init
   --help       Show this help message
 `);

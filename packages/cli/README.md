@@ -1,6 +1,6 @@
 # AI Domain Data CLI (`aidd`)
 
-Local-first tooling for the AI Domain Data Standard v0.1. The CLI helps you scaffold, validate, and publish `ai.json` records without relying on any hosted service.
+Local-first tooling for the AI Domain Data Standard v0.1. The CLI helps you scaffold, validate, and publish `domain-profile.json` records without relying on any hosted service.
 
 ## Installation
 
@@ -19,10 +19,10 @@ npx @ai-domain-data/cli aidd --help
 
 ### `aidd init`
 
-Create a starter `ai.json` in the current directory.
+Create a starter `domain-profile.json` in the current directory.
 
 ```
-aidd init [--path=./ai.json] [--force]
+aidd init [--path=./domain-profile.json] [--force]
 ```
 
 - `--path` (or `-p`) overrides the output location.
@@ -30,10 +30,10 @@ aidd init [--path=./ai.json] [--force]
 
 ### `aidd validate`
 
-Validate an `ai.json` file against `schema-v0.1.json`. Returns exit code `0` on success.
+Validate a `domain-profile.json` file against `schema-v0.1.json`. Returns exit code `0` on success.
 
 ```
-aidd validate [--path=./ai.json]
+aidd validate [--path=./domain-profile.json]
 ```
 
 ### `aidd emit`
@@ -44,7 +44,7 @@ Validate the record and print two ready-to-publish payloads:
 - DNS TXT record for `_ai.<domain>` with 255-character-safe Base64 segmentation
 
 ```
-aidd emit [--path=./ai.json]
+aidd emit [--path=./domain-profile.json]
 ```
 
 Save the JSON output to `https://<domain>/.well-known/domain-profile.json` and optionally mirror it via `_ai.<domain>` TXT with `ai-json=<base64(JSON)>`.
@@ -60,5 +60,5 @@ The emitted DNS record is already split into quoted chunks of at most 255 charac
 
 - The CLI never makes network calls. Everything runs locally.
 - `entity_type` is optional; pick a recommended value or omit it entirely.
-- Future versions of the standard will ship new schema files—update your `ai.json` and rerun `aidd validate` when you migrate.
+- Future versions of the standard will ship new schema files—update your `domain-profile.json` and rerun `aidd validate` when you migrate.
 

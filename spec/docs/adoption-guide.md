@@ -35,7 +35,7 @@ Ensure stakeholders sign off on these values before publishing.
 Options:
 
 - **AI Record Generator** – Web form with validation and copy-to-clipboard helpers.
-- **CLI (`aidd init`)** – Generates a starter `ai.json` file you can track in source control.
+- **CLI (`aidd init`)** – Generates a starter `domain-profile.json` file you can track in source control.
 - **Internal automation** – Integrate the schema into your CMS or metadata pipeline.
 
 Requirements:
@@ -107,7 +107,7 @@ Checklist:
 | Revalidate DNS + HTTPS endpoints        | Quarterly or after infra changes|
 | Monitor github.com/ai-domain-data/spec| Subscribe to releases/issues   |
 
-Store `ai.json` in source control or a CMS so revisions are auditable. When the spec publishes a new version, update the spec field and adopt any new requirements.
+Store `domain-profile.json` in source control or a CMS so revisions are auditable. When the spec publishes a new version, update the spec field and adopt any new requirements.
 
 ---
 

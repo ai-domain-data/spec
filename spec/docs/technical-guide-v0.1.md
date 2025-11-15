@@ -113,7 +113,7 @@ It reports whether each source is present, whether the payload parses, and wheth
 
 The Node-based CLI includes three commands:
 
-- `aidd init` – writes a starter `ai.json` file populated with placeholders and the optional `entity_type` commented out for guidance.
+- `aidd init` – writes a starter `domain-profile.json` file populated with placeholders and the optional `entity_type` commented out for guidance.
 - `aidd validate` – validates an existing file against the schema, exiting with code `0` on success and non-zero on failure.
 - `aidd emit` – validates, then prints the recommended DNS TXT payload and `.well-known` JSON, ready for copy/paste.
 
@@ -166,7 +166,7 @@ These tools stay open-source and self-hosted. They exist to reduce friction, esp
 1. Clone the repository (`git clone git@github.com:...`).
 2. Install dependencies (`pnpm install` or `npm install`).
 3. Run `pnpm dev --filter site` (or equivalent) to start the generator/checker.
-4. Build your `ai.json` file using the generator or CLI.
+4. Build your `domain-profile.json` file using the generator or CLI.
 5. Publish DNS + HTTPS endpoints.
 6. Share the repo/spec with partner teams, agencies, or community members for feedback.
 
