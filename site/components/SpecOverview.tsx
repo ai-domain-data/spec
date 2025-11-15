@@ -79,6 +79,16 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
               schema-v0.1.json
             </a>
           </li>
+          <li>
+            GitHub Action:{" "}
+            <a
+              href="https://github.com/ai-domain-data/ai-domain-data-validate-action"
+              target="_blank"
+              rel="noreferrer"
+            >
+              ai-domain-data-validate-action
+            </a>
+          </li>
         </ul>
       </section>
 

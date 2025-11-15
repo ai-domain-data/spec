@@ -144,7 +144,13 @@ Tool builders can plug this into their products without reimplementing the looku
 Once the core spec gains traction, Phase 4 introduces optional ecosystem helpers:
 
 - **WordPress plugin** – Admin UI that stores the JSON file and prints DNS instructions.
-- **GitHub Action** – Pull-request validation using `aidd`.
+- **GitHub Action** – Use [`ai-domain-data-validate-action`](https://github.com/ai-domain-data/ai-domain-data-validate-action) in CI to run `aidd validate` automatically:
+
+  ```yaml
+  - uses: ai-domain-data/ai-domain-data-validate-action@v0
+    with:
+      path: domain-profile.json
+  ```
 - **Cloudflare Worker template** – CDN-ready `.well-known/domain-profile.json` service backed by KV.
 
 These tools stay open-source and self-hosted. They exist to reduce friction, especially for non-technical teams, without forcing anyone into a centralized service.

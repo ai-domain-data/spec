@@ -49,14 +49,22 @@ Embed this library when you need to consume AI Domain Data records programmatica
 
 ---
 
-## 5. GitHub Action (Phase 4 deliverable)
+## 5. GitHub Action – ai-domain-data-validate-action
 
-- Name: `ai-domain-data-validate`
-- Behavior: Runs `aidd validate` during push/pull_request
+- Repository: https://github.com/ai-domain-data/ai-domain-data-validate-action
+- Behavior: Runs `aidd validate` during push / pull_request workflows
 - Inputs: path to `domain-profile.json` (default `domain-profile.json`)
+- Usage snippet:
+
+  ```yaml
+  - uses: ai-domain-data/ai-domain-data-validate-action@v0
+    with:
+      path: domain-profile.json
+  ```
+
 - Audience: Repositories that store `domain-profile.json` alongside code/content
 
-Use this to block merges when the AI Domain Data record drifts from the schema.
+Use this to block merges when the AI Domain Data record drifts from the schema. Tag `v0` always points to the latest compatible release (currently `v0.1.0`).
 
 ---
 
