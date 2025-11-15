@@ -46,18 +46,20 @@ npm run build --workspace @ai-domain-data/resolver
 
 ## Specification
 
-- `spec/README.md` – Primary spec document with publishing walkthroughs.
-- `spec/schema-v0.1.json` – Canonical JSON schema (with optional `entity_type`).
-- `spec/outreach-short.md` – Non-technical briefing for marketers and SEO professionals.
-- `spec/outreach-long.md` – Technical deep-dive for developers and platform teams.
+- `spec/spec/spec-v0.1.md` – Normative spec text for the v0.1 release.
+- `spec/spec/schema-v0.1.json` – Canonical JSON schema (with optional `entity_type`).
+- `spec/docs/introduction.md` – Plain-language overview of why the standard exists.
+- `spec/docs/technical-guide-v0.1.md` – Implementation details for publishers and integrators.
+- `spec/docs/adoption-guide.md` – Rollout and governance checklist for domain owners.
+- `spec/docs/implementation-overview.md` – Summary of the included tooling.
 
 ## Roadmap alignment
 
 This working repo covers everything required for Phases 1–3:
 
 1. **Brand + Spec + Proof** – Docs, schema, generator, checker.
-2. **Distribution + Influencers** – Outreach materials and spec clarity.
-3. **Minimal Implementation** – CLI and resolver packages.
+2. **Distribution + Influencers** – Clarity and outreach resources for getting the spec adopted.
+3. **Minimal Implementation** – CLI and resolver packages for self-hosted workflows.
 
-Phase 4 integrations (WordPress plugin, GitHub Action, Cloudflare Worker) and Phase 5 SaaS explorations will be staged here before moving to public organization-owned repositories.
+Future integrations (e.g., WordPress plugin, GitHub Action, Cloudflare Worker) will also land here once they are ready for public testing.
 
