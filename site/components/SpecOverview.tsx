@@ -75,7 +75,7 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
           </li>
           <li>
             Download Schema (v0.1):{" "}
-            <a href={meta.schemaUrl} target="_blank" rel="noreferrer">
+            <a href={meta.schemaUrl} target="_blank" rel="noreferrer" download>
               schema-v0.1.json
             </a>
           </li>

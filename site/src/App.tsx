@@ -11,7 +11,7 @@ const versionMeta = {
   lastUpdated: "2025-11-14",
   specUrl: "https://github.com/ai-domain-data/spec",
   schemaUrl:
-    "https://raw.githubusercontent.com/ai-domain-data/spec/main/schema-v0.1.json"
+    "https://raw.githubusercontent.com/ai-domain-data/spec/main/spec/spec/schema-v0.1.json"
 } as const;
 
 const toolTabs = [
