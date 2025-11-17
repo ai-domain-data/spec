@@ -82,7 +82,6 @@ function validate(values: FormValues): Errors {
     "name",
     "description",
     "website",
-    "logo",
     "contact"
   ];
 
@@ -135,9 +134,12 @@ export function Generator() {
       name: values.name.trim(),
       description: values.description.trim(),
       website: values.website.trim(),
-      logo: values.logo.trim(),
       contact: values.contact.trim()
     } as Record<string, string>;
+
+    if (values.logo.trim()) {
+      base.logo = values.logo.trim();
+    }
 
     if (values.entityType.trim()) {
       base.entity_type = values.entityType.trim();
@@ -252,7 +254,7 @@ export function Generator() {
         </div>
 
         <div className="form-field">
-          <label htmlFor="logo">Logo URL*</label>
+          <label htmlFor="logo">Logo URL (optional)</label>
           <input
             id="logo"
             type="url"
@@ -260,13 +262,12 @@ export function Generator() {
             placeholder="https://example.com/logo.svg"
             value={values.logo}
             onChange={(event) => handleChange("logo")(event.target.value)}
-            required
           />
           {errors.logo ? (
             <span className="error-text">{errors.logo}</span>
           ) : (
             <span className="helper-text">
-              Public logo or image file accessible over HTTPS.
+              Public logo or image file accessible over HTTPS. Leave blank if your site doesn't have a logo.
             </span>
           )}
         </div>

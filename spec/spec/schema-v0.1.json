@@ -9,7 +9,6 @@
     "name",
     "description",
     "website",
-    "logo",
     "contact"
   ],
   "properties": {
@@ -36,7 +35,7 @@
     "logo": {
       "type": "string",
       "format": "uri",
-      "description": "URL to a logo or representative image."
+      "description": "Optional URL to a logo or representative image."
     },
     "contact": {
       "type": "string",

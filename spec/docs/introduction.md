@@ -8,7 +8,7 @@ The AI Domain Data Standard offers a simple fix. It gives every domain owner a l
 
 - **AI accuracy is the new SEO.** Search still matters, but AI answers are increasingly the first touchpoint for customers, readers, and fans. Supplying your own official data creates a trustworthy baseline for every assistant.
 - **Works for every kind of domain.** Blogs, personal sites, open-source projects, nonprofits, startups, agencies—if you have a domain, the standard works for you.
-- **Fast to implement.** The JSON file covers your name, description, official website, logo, contact point, and an optional category like “blog” or “community.” You can publish it in minutes.
+- **Fast to implement.** The JSON file covers your name, description, official website, contact point, and optional fields like logo and category (e.g., "blog" or "community"). You can publish it in minutes.
 - **Self-hosted by design.** You add a DNS TXT record and a `.well-known/domain-profile.json` file. Agents retrieve the data directly from you, not from another platform that might disappear or paywall access.
 
 ## How you’ll use it

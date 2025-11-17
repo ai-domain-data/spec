@@ -16,7 +16,7 @@ At launch, the standard intentionally focuses on identity and ownership. The v0.
   "name": "string",
   "description": "string",
   "website": "string (URL)",
-  "logo": "string (URL)",
+  "logo": "string (URL, optional)",
   "contact": "string (email or URL)",
   "entity_type": "string (optional)"
 }
@@ -24,7 +24,8 @@ At launch, the standard intentionally focuses on identity and ownership. The v0.
 
 - **spec** references the exact version of the standard, enabling future upgrades without ambiguity.
 - **name** and **description** give AI systems a tight summary block to quote.
-- **website**, **logo**, and **contact** surface official touchpoints.
+- **website** and **contact** surface official touchpoints.
+- **logo** is optional (many sites do not have a logo). When provided, it should be a publicly accessible image URL.
 - **entity_type** is optional and exists purely for downstream classification. Suggested values: `business`, `blog`, `personal`, `nonprofit`, `community`, `project`, `publication`, `tool`, `other`.
 
 The schema disallows additional properties. That constraint keeps the payload predictable for consumers and ensures future extensions arrive through version bumps or sanctioned add-ons rather than ad-hoc fields.

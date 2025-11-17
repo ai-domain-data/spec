@@ -79,9 +79,7 @@ async function writeTemplate(targetPath, force = false) {
     name: "Your Site or Organization",
     description: "Concise description of what your domain provides.",
     website: "https://example.com",
-    logo: "https://example.com/logo.svg",
-    contact: "contact@example.com",
-    entity_type: "business"
+    contact: "contact@example.com"
   };
 
   await fs.writeFile(targetPath, `${JSON.stringify(template, null, 2)}\n`, "utf-8");

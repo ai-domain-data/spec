@@ -72,7 +72,6 @@ Example result:
     "name": "Example Publisher",
     "description": "Archive of agency-ready resources for machines and AI",
     "website": "https://example.com",
-    "logo": "https://example.com/logo.svg",
     "contact": "https://example.com/contact",
     "entity_type": "publication"
   },
@@ -80,13 +79,12 @@ Example result:
     "http": {
       "found": true,
       "errors": [],
-      "raw": "{\n  \"spec\": \"https://ai-domain-data.org/spec/v0.1\",\n  \"name\": \"Example Publisher\",\n  \"description\": \"Archive of agency-ready resources for machines and AI\",\n  \"website\": \"https://example.com\",\n  \"logo\": \"https://example.com/logo.svg\",\n  \"contact\": \"https://example.com/contact\",\n  \"entity_type\": \"publication\"\n}",
+      "raw": "{\n  \"spec\": \"https://ai-domain-data.org/spec/v0.1\",\n  \"name\": \"Example Publisher\",\n  \"description\": \"Archive of agency-ready resources for machines and AI\",\n  \"website\": \"https://example.com\",\n  \"contact\": \"https://example.com/contact\",\n  \"entity_type\": \"publication\"\n}",
       "payload": {
         "spec": "https://ai-domain-data.org/spec/v0.1",
         "name": "Example Publisher",
         "description": "Archive of agency-ready resources for machines and AI",
         "website": "https://example.com",
-        "logo": "https://example.com/logo.svg",
         "contact": "https://example.com/contact",
         "entity_type": "publication"
       }
@@ -94,13 +92,12 @@ Example result:
     "dns": {
       "found": true,
       "errors": [],
-      "raw": "{\n  \"spec\": \"https://ai-domain-data.org/spec/v0.1\",\n  \"name\": \"Example Publisher\",\n  \"description\": \"Archive of agency-ready resources for machines and AI\",\n  \"website\": \"https://example.com\",\n  \"logo\": \"https://example.com/logo.svg\",\n  \"contact\": \"https://example.com/contact\",\n  \"entity_type\": \"publication\"\n}",
+      "raw": "{\n  \"spec\": \"https://ai-domain-data.org/spec/v0.1\",\n  \"name\": \"Example Publisher\",\n  \"description\": \"Archive of agency-ready resources for machines and AI\",\n  \"website\": \"https://example.com\",\n  \"contact\": \"https://example.com/contact\",\n  \"entity_type\": \"publication\"\n}",
       "payload": {
         "spec": "https://ai-domain-data.org/spec/v0.1",
         "name": "Example Publisher",
         "description": "Archive of agency-ready resources for machines and AI",
         "website": "https://example.com",
-        "logo": "https://example.com/logo.svg",
         "contact": "https://example.com/contact",
         "entity_type": "publication"
       }

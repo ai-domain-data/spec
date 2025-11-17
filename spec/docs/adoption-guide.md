@@ -22,7 +22,7 @@ Create a single source of truth for the schema fields:
 | name | Brand or legal entity registry |
 | description | Approved messaging / SEO summary (1–2 sentences) |
 | website | Canonical HTTPS URL |
-| logo | CDN-hosted SVG/PNG consistent with brand usage |
+| logo (optional) | CDN-hosted SVG/PNG consistent with brand usage |
 | contact | Public support email or contact form |
 | entity_type (optional) | Classification (business, blog, personal, nonprofit, etc.) |
 

@@ -75,7 +75,6 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
   "name": "Example Publisher",
   "description": "Archive of agency-ready resources for machines and AI",
   "website": "https://example.com",
-  "logo": "https://example.com/logo.svg",
   "contact": "https://example.com/contact",
   "entity_type": "publication"
 }
@@ -93,7 +92,6 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
   "name": "Jordan Lee",
   "description": "Independent UX engineer showcasing projects and research",
   "website": "https://jordanlee.dev",
-  "logo": "https://jordanlee.dev/assets/avatar.png",
   "contact": "hello@jordanlee.dev",
   "entity_type": "personal"
 }
@@ -134,7 +132,8 @@ The canonical schema lives in [`schema-v0.1.json`](./schema-v0.1.json).
 Key rules:
 
 - `spec` is always the constant string `https://ai-domain-data.org/spec/v0.1`.
-- `name`, `description`, `website`, `logo`, and `contact` are required.
+- `name`, `description`, `website`, and `contact` are required.
+- `logo` is optional (many sites do not have a logo).
 - `entity_type` is optional and not validated against a fixed enum in v0.1. Recommended values include `business`, `blog`, `personal`, `nonprofit`, `community`, `project`, `publication`, `tool`, or `other`.
 - No additional properties are permitted.
 

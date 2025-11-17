@@ -54,7 +54,7 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
           <li>name</li>
           <li>description</li>
           <li>website</li>
-          <li>logo</li>
+          <li>logo (optional)</li>
           <li>contact</li>
           <li>entity_type (optional)</li>
         </ul>

@@ -47,7 +47,7 @@ npm run build --workspace @ai-domain-data/resolver
 ## Specification
 
 - `spec/spec/spec-v0.1.md` – Normative spec text for the v0.1 release.
-- `spec/spec/schema-v0.1.json` – Canonical JSON schema (with optional `entity_type`).
+- `spec/spec/schema-v0.1.json` – Canonical JSON schema (with optional `logo` and `entity_type`).
 - `spec/docs/introduction.md` – Plain-language overview of why the standard exists.
 - `spec/docs/technical-guide-v0.1.md` – Implementation details for publishers and integrators.
 - `spec/docs/adoption-guide.md` – Rollout and governance checklist for domain owners.

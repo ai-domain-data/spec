@@ -46,7 +46,7 @@ function validatePayload(payload: unknown): ValidationResult {
   }
 
   const record = payload as Record<string, unknown>;
-  const requiredFields = ["spec", "name", "description", "website", "logo", "contact"];
+  const requiredFields = ["spec", "name", "description", "website", "contact"];
 
   requiredFields.forEach((field) => {
     if (!(field in record)) {
