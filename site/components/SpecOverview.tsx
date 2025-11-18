@@ -57,6 +57,7 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
           <li>logo (optional)</li>
           <li>contact</li>
           <li>entity_type (optional)</li>
+          <li>jsonld (optional)</li>
         </ul>
         <p>
           v0.1 is published as an Informational Draft. Future versions will follow the same versioned-document and public

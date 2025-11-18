@@ -9,21 +9,25 @@ type FormValues = {
   logo: string;
   contact: string;
   entityType: string;
+  jsonldEnabled: boolean;
+  jsonldType: string;
+  jsonldEmail: string;
+  jsonldAdditional: string;
 };
 
 const specVersion = "https://ai-domain-data.org/spec/v0.1";
 
 const ENTITY_TYPE_OPTIONS = [
   "",
-  "business",
-  "blog",
-  "personal",
-  "nonprofit",
-  "community",
-  "project",
-  "publication",
-  "tool",
-  "other"
+  "Organization",
+  "Person",
+  "Blog",
+  "NGO",
+  "Community",
+  "Project",
+  "CreativeWork",
+  "SoftwareApplication",
+  "Thing"
 ] as const;
 
 function encodeBase64(input: string): string {
@@ -71,7 +75,11 @@ const initialValues: FormValues = {
   website: "",
   logo: "",
   contact: "",
-  entityType: ""
+  entityType: "",
+  jsonldEnabled: false,
+  jsonldType: "",
+  jsonldEmail: "",
+  jsonldAdditional: ""
 };
 
 type Errors = Partial<Record<keyof FormValues, string>>;
@@ -86,24 +94,25 @@ function validate(values: FormValues): Errors {
   ];
 
   required.forEach((key) => {
-    if (!values[key]?.trim()) {
+    const value = values[key];
+    if (typeof value === "string" && !value.trim()) {
       errors[key] = "Required field";
     }
   });
 
   const urlFields: Array<keyof FormValues> = ["website", "logo"];
   urlFields.forEach((key) => {
-    const value = values[key]?.trim();
-    if (value) {
+    const value = values[key];
+    if (typeof value === "string" && value.trim()) {
       try {
-        new URL(value);
+        new URL(value.trim());
       } catch {
         errors[key] = "Enter a valid URL (https://...)";
       }
     }
   });
 
-  const contact = values.contact.trim();
+  const contact = typeof values.contact === "string" ? values.contact.trim() : "";
   if (contact) {
     const looksLikeEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
     const looksLikeUrl = (() => {
@@ -117,6 +126,15 @@ function validate(values: FormValues): Errors {
 
     if (!looksLikeEmail && !looksLikeUrl) {
       errors.contact = "Enter a valid email or URL";
+    }
+  }
+
+  // Validate additional JSON-LD fields if provided
+  if (values.jsonldEnabled && typeof values.jsonldAdditional === "string" && values.jsonldAdditional.trim()) {
+    try {
+      JSON.parse(values.jsonldAdditional.trim());
+    } catch {
+      errors.jsonldAdditional = "Invalid JSON. Please check your syntax.";
     }
   }
 
@@ -135,7 +153,7 @@ export function Generator() {
       description: values.description.trim(),
       website: values.website.trim(),
       contact: values.contact.trim()
-    } as Record<string, string>;
+    } as Record<string, string | object>;
 
     if (values.logo.trim()) {
       base.logo = values.logo.trim();
@@ -143,6 +161,40 @@ export function Generator() {
 
     if (values.entityType.trim()) {
       base.entity_type = values.entityType.trim();
+    }
+
+    // Generate jsonld object if enabled
+    if (values.jsonldEnabled) {
+      const jsonld: Record<string, any> = {
+        "@context": "https://schema.org",
+        "@type": values.jsonldType.trim() || values.entityType.trim() || "Thing",
+        name: values.name.trim(),
+        url: values.website.trim(),
+        description: values.description.trim()
+      };
+
+      if (values.logo.trim()) {
+        jsonld.logo = values.logo.trim();
+      }
+
+      if (values.jsonldEmail.trim()) {
+        jsonld.email = values.jsonldEmail.trim();
+      } else if (values.contact.trim() && values.contact.trim().includes("@")) {
+        // Auto-detect email from contact field
+        jsonld.email = values.contact.trim();
+      }
+
+      // Parse additional JSON-LD fields if provided
+      if (values.jsonldAdditional.trim()) {
+        try {
+          const additional = JSON.parse(values.jsonldAdditional.trim());
+          Object.assign(jsonld, additional);
+        } catch {
+          // Invalid JSON, ignore
+        }
+      }
+
+      base.jsonld = jsonld;
     }
 
     return base;
@@ -171,17 +223,17 @@ export function Generator() {
     [errors]
   );
 
-  const handleChange = (field: keyof FormValues) => (value: string) => {
+  const handleChange = (field: keyof FormValues) => (value: string | boolean) => {
     setValues((prev) => ({ ...prev, [field]: value }));
 
     if (hasSubmitted) {
       setErrors((prev) => {
         const next = { ...prev };
-        const updated = validate({ ...values, [field]: value });
-        if (updated[field]) {
-          next[field] = updated[field];
+        const updated = validate({ ...values, [field]: value } as FormValues);
+        if (updated[field as keyof FormValues]) {
+          next[field as keyof FormValues] = updated[field as keyof FormValues];
         } else {
-          delete next[field];
+          delete next[field as keyof FormValues];
         }
         return next;
       });
@@ -308,6 +360,78 @@ export function Generator() {
             nothing fits.
           </span>
         </div>
+
+        <div className="form-field">
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <input
+              type="checkbox"
+              id="jsonldEnabled"
+              checked={values.jsonldEnabled}
+              onChange={(event) => handleChange("jsonldEnabled")(event.target.checked)}
+            />
+            <label htmlFor="jsonldEnabled" style={{ margin: 0, cursor: "pointer" }}>
+              Embed JSON-LD for schema.org alignment (optional)
+            </label>
+          </div>
+          <span className="helper-text">
+            Include a full schema.org JSON-LD block in your AIDD record. This provides maximum compatibility with tools that only process schema.org markup, while AIDD fields remain authoritative for identity.
+          </span>
+        </div>
+
+        {values.jsonldEnabled && (
+          <>
+            <div className="form-field">
+              <label htmlFor="jsonldType">JSON-LD @type (optional)</label>
+              <select
+                id="jsonldType"
+                value={values.jsonldType}
+                onChange={(event) => handleChange("jsonldType")(event.target.value)}
+              >
+                <option value="">Use Entity Type above (or default to Thing)</option>
+                {ENTITY_TYPE_OPTIONS.filter(opt => opt).map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <span className="helper-text">
+                Schema.org type for the JSON-LD block. Defaults to Entity Type above if not specified.
+              </span>
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="jsonldEmail">JSON-LD Email (optional)</label>
+              <input
+                id="jsonldEmail"
+                type="email"
+                placeholder="contact@example.com"
+                value={values.jsonldEmail}
+                onChange={(event) => handleChange("jsonldEmail")(event.target.value)}
+              />
+              <span className="helper-text">
+                Email for JSON-LD. If left blank, will use the Contact field if it's an email address.
+              </span>
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="jsonldAdditional">Additional JSON-LD Fields (optional)</label>
+              <textarea
+                id="jsonldAdditional"
+                placeholder='{"foundingDate": "2020-01-15", "address": {"@type": "PostalAddress", "addressLocality": "San Francisco"}}'
+                value={values.jsonldAdditional}
+                onChange={(event) => handleChange("jsonldAdditional")(event.target.value)}
+                rows={4}
+              />
+              {errors.jsonldAdditional ? (
+                <span className="error-text">{errors.jsonldAdditional}</span>
+              ) : (
+                <span className="helper-text">
+                  Add extra schema.org fields as valid JSON. These will be merged into the JSON-LD block. Example: address, foundingDate, numberOfEmployees, etc.
+                </span>
+              )}
+            </div>
+          </>
+        )}
 
         <div className="actions">
           <button className="primary-button" type="submit">

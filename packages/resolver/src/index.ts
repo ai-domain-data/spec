@@ -5,7 +5,7 @@ import Ajv, { ErrorObject } from "ajv";
 import addFormats from "ajv-formats";
 
 const require = createRequire(import.meta.url);
-const schema = require("../../spec/schema-v0.1.json");
+const schema = require("../../../spec/spec/schema-v0.1.json");
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -34,15 +34,26 @@ export type ResolveOptions = {
 
 export type SourceState = {
   found: boolean;
-  payload?: Record<string, unknown>;
+  payload?: AIDDPayload;
   raw?: string;
   errors: string[];
+};
+
+export type AIDDPayload = {
+  spec: string;
+  name: string;
+  description: string;
+  website: string;
+  contact: string;
+  logo?: string;
+  entity_type?: string;
+  jsonld?: Record<string, unknown>;
 };
 
 export type ResolveResult = {
   source: "http" | "dns" | "none";
   valid: boolean;
-  payload: Record<string, unknown> | null;
+  payload: AIDDPayload | null;
   errors?: string[];
   details: {
     http: SourceState;
@@ -151,7 +162,7 @@ async function fetchHttp(
 
     return {
       found: true,
-      payload: validation.valid ? parsed : undefined,
+      payload: validation.valid ? (parsed as AIDDPayload) : undefined,
       raw: text,
       errors: validation.errors
     };
@@ -202,7 +213,7 @@ async function fetchDns(
 
     return {
       found: true,
-      payload: validation.valid ? parsed : undefined,
+      payload: validation.valid ? (parsed as AIDDPayload) : undefined,
       raw: decoded,
       errors: validation.errors
     };
@@ -269,15 +280,15 @@ export async function resolveAIDomainData(
   };
 }
 
-export const recommendedEntityTypes = [
-  "business",
-  "blog",
-  "personal",
-  "nonprofit",
-  "community",
-  "project",
-  "publication",
-  "tool",
-  "other"
-] as const;
+export const recommendedEntityTypes: string[] = [
+  "Organization",
+  "Person",
+  "Blog",
+  "NGO",
+  "Community",
+  "Project",
+  "CreativeWork",
+  "SoftwareApplication",
+  "Thing"
+];
 

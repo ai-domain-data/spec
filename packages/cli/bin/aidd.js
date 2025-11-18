@@ -7,8 +7,8 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, "..", "..");
-const schemaFile = path.resolve(repoRoot, "spec", "schema-v0.1.json");
+const repoRoot = path.resolve(__dirname, "..", "..", "..");
+const schemaFile = path.resolve(repoRoot, "spec", "spec", "schema-v0.1.json");
 
 async function loadSchema() {
   const contents = await fs.readFile(schemaFile, "utf-8");
@@ -82,8 +82,23 @@ async function writeTemplate(targetPath, force = false) {
     contact: "contact@example.com"
   };
 
-  await fs.writeFile(targetPath, `${JSON.stringify(template, null, 2)}\n`, "utf-8");
+  const templateJson = JSON.stringify(template, null, 2);
+  const withComments = `${templateJson.slice(0, -1)}
+  // Optional fields (uncomment and fill as needed):
+  // "logo": "https://example.com/logo.png",
+  // "entity_type": "Organization",
+  // "jsonld": {
+  //   "@context": "https://schema.org",
+  //   "@type": "Organization",
+  //   "name": "Your Site or Organization",
+  //   "url": "https://example.com",
+  //   "description": "Concise description of what your domain provides."
+  // }
+}`;
+
+  await fs.writeFile(targetPath, `${withComments}\n`, "utf-8");
   console.log(`✔ Created ${targetPath}. Update the placeholder values before publishing.`);
+  console.log(`  Note: Optional fields (logo, entity_type, jsonld) are commented in the template.`);
 }
 
 async function loadRecord(targetPath) {
@@ -168,13 +183,22 @@ Usage:
 
 Commands:
   init      Create a starter domain-profile.json file with placeholder values.
+            Optional fields (logo, entity_type, jsonld) are included as comments.
   validate  Validate domain-profile.json against the v0.1 schema. Exit code 0 on success.
+            Supports optional jsonld field for schema.org alignment.
   emit      Validate then print the JSON for /.well-known/domain-profile.json and the DNS TXT payload.
 
 Options:
   --path, -p   Path to the domain-profile.json file (default: ./domain-profile.json)
   --force      Overwrite the file when running init
   --help       Show this help message
+
+Optional Fields:
+  The schema supports optional fields:
+  - logo: URL to a logo or representative image
+  - entity_type: Schema.org @type value (Organization, Person, Blog, etc.)
+  - jsonld: Embedded JSON-LD block for schema.org alignment
+            Must include @context: "https://schema.org" and @type when provided.
 `);
 }
 

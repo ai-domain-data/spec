@@ -73,7 +73,14 @@ Example result:
     "description": "Archive of agency-ready resources for machines and AI",
     "website": "https://example.com",
     "contact": "https://example.com/contact",
-    "entity_type": "publication"
+    "entity_type": "CreativeWork",
+    "jsonld": {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      "name": "Example Publisher",
+      "url": "https://example.com",
+      "description": "Archive of agency-ready resources for machines and AI"
+    }
   },
   "details": {
     "http": {
@@ -86,29 +93,42 @@ Example result:
         "description": "Archive of agency-ready resources for machines and AI",
         "website": "https://example.com",
         "contact": "https://example.com/contact",
-        "entity_type": "publication"
+        "entity_type": "CreativeWork",
+        "jsonld": {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": "Example Publisher",
+          "url": "https://example.com",
+          "description": "Archive of agency-ready resources for machines and AI"
+        }
       }
     },
     "dns": {
       "found": true,
       "errors": [],
-      "raw": "{\n  \"spec\": \"https://ai-domain-data.org/spec/v0.1\",\n  \"name\": \"Example Publisher\",\n  \"description\": \"Archive of agency-ready resources for machines and AI\",\n  \"website\": \"https://example.com\",\n  \"contact\": \"https://example.com/contact\",\n  \"entity_type\": \"publication\"\n}",
+      "raw": "{\n  \"spec\": \"https://ai-domain-data.org/spec/v0.1\",\n  \"name\": \"Example Publisher\",\n  \"description\": \"Archive of agency-ready resources for machines and AI\",\n  \"website\": \"https://example.com\",\n  \"contact\": \"https://example.com/contact\",\n  \"entity_type\": \"CreativeWork\"\n}",
       "payload": {
         "spec": "https://ai-domain-data.org/spec/v0.1",
         "name": "Example Publisher",
         "description": "Archive of agency-ready resources for machines and AI",
         "website": "https://example.com",
         "contact": "https://example.com/contact",
-        "entity_type": "publication"
+        "entity_type": "CreativeWork"
       }
     }
   }
 }
 ```
 
+## JSON-LD Support
+
+The resolver fully supports the optional `jsonld` field for schema.org alignment. When present, the `jsonld` object is included in the resolved payload. The resolver validates that `jsonld` is an object (if provided) but does not validate the internal structure of the JSON-LD block—that is left to JSON-LD processors.
+
+**Note on precedence**: According to the AIDD specification, AIDD identity fields (`name`, `description`, `website`, `logo`, `contact`) take precedence over values in the embedded `jsonld` field. The `jsonld` field serves as supplementary data for tools that require schema.org format. Consumers should merge AIDD identity fields with additional JSON-LD properties when processing the payload.
+
 ### `recommendedEntityTypes`
 
-An array of recommended strings (`business`, `blog`, `personal`, etc.) for the optional `entity_type` field.
+An array of recommended schema.org `@type` values (`Organization`, `Person`, `Blog`, `NGO`, `Community`, `Project`, `CreativeWork`, `SoftwareApplication`, `Thing`) for the optional `entity_type` field.
 
 ## Building
 

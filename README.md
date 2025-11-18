@@ -46,12 +46,13 @@ npm run build --workspace @ai-domain-data/resolver
 
 ## Specification
 
-- `spec/spec/spec-v0.1.md` – Normative spec text for the v0.1 release.
-- `spec/spec/schema-v0.1.json` – Canonical JSON schema (with optional `logo` and `entity_type`).
+- `spec/spec/spec-v0.1.md` – Normative spec text for the v0.1 release, including schema.org interoperability mapping and precedence rules.
+- `spec/spec/schema-v0.1.json` – Canonical JSON schema (with optional `logo`, `entity_type`, and `jsonld`).
 - `spec/docs/introduction.md` – Plain-language overview of why the standard exists.
-- `spec/docs/technical-guide-v0.1.md` – Implementation details for publishers and integrators.
+- `spec/docs/technical-guide-v0.1.md` – Implementation details for publishers and integrators, including schema.org integration guidance.
 - `spec/docs/adoption-guide.md` – Rollout and governance checklist for domain owners.
 - `spec/docs/implementation-overview.md` – Summary of the included tooling.
+- `spec/docs/aidd-vs-ai-txt.md` – Comparison of AIDD and ai.txt, explaining their complementary purposes.
 
 ## Roadmap alignment
 

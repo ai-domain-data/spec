@@ -24,7 +24,8 @@ Create a single source of truth for the schema fields:
 | website | Canonical HTTPS URL |
 | logo (optional) | CDN-hosted SVG/PNG consistent with brand usage |
 | contact | Public support email or contact form |
-| entity_type (optional) | Classification (business, blog, personal, nonprofit, etc.) |
+| entity_type (optional) | Schema.org @type value (Organization, Person, Blog, NGO, Community, Project, CreativeWork, SoftwareApplication, or Thing) |
+| jsonld (optional) | Embedded JSON-LD block for schema.org alignment |
 
 Ensure stakeholders sign off on these values before publishing.
 

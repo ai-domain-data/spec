@@ -59,6 +59,6 @@ The emitted DNS record is already split into quoted chunks of at most 255 charac
 ## Notes
 
 - The CLI never makes network calls. Everything runs locally.
-- `entity_type` is optional; pick a recommended value or omit it entirely.
+- `entity_type` is optional; SHOULD use schema.org `@type` values (Organization, Person, Blog, NGO, Community, Project, CreativeWork, SoftwareApplication, Thing) or omit it entirely.
 - Future versions of the standard will ship new schema files—update your `domain-profile.json` and rerun `aidd validate` when you migrate.
 
