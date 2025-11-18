@@ -22,7 +22,7 @@ That’s it. From there, AI tools have a base set of facts to reference—provid
 
 ## What’s next
 
-The standard is intentionally minimal for v0.1 so it’s easy to adopt. As more domains participate, we’ll collaborate with community partners, agencies, and platforms to expand the ecosystem: a WordPress plugin, GitHub Action, Cloudflare Worker, and light developer tooling are already on the roadmap.
+The standard is intentionally minimal for v0.1.1 (backward-compatible with v0.1) so it's easy to adopt. As more domains participate, we'll collaborate with community partners, agencies, and platforms to expand the ecosystem: a WordPress plugin, GitHub Action, Cloudflare Worker, and light developer tooling are already on the roadmap.
 
 Down the road, you’ll see optional services that add automation, signing, and analytics. But the core standard will stay open, free, and self-hosted—ensuring you always have an independent way to represent your domain accurately.
 

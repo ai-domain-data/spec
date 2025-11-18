@@ -48,7 +48,7 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
       </p>
 
       <section className="spec-section">
-        <h3>Scope of v0.1</h3>
+        <h3>Scope of v0.1.1</h3>
         <p>Identity fields included in this draft:</p>
         <ul className="inline-list columns">
           <li>name</li>
@@ -60,7 +60,7 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
           <li>jsonld (optional)</li>
         </ul>
         <p>
-          v0.1 is published as an Informational Draft. Future versions will follow the same versioned-document and public
+          v0.1.1 (backward-compatible with v0.1) is published as an Informational Draft. Future versions will follow the same versioned-document and public
           change-tracking model used here.
         </p>
       </section>
@@ -75,7 +75,7 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
             </a>
           </li>
           <li>
-            Download Schema (v0.1):{" "}
+            Download Schema (v0.1.1):{" "}
             <a href={meta.schemaUrl} target="_blank" rel="noreferrer" download>
               schema-v0.1.json
             </a>

@@ -1,115 +1,142 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { Generator } from "@generator/Generator";
 import { Checker } from "@checker/Checker";
 import { SpecOverview } from "@components/SpecOverview";
 import { ContactPanel } from "@components/ContactPanel";
+import { LandingPage } from "@components/LandingPage";
+import { Footer } from "@components/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 const versionMeta = {
-  version: "v0.1",
+  version: "v0.1.1",
   status: "Informational Draft",
   published: "2025-11-14",
-  lastUpdated: "2025-11-14",
+  lastUpdated: "2025-11-18",
   specUrl: "https://github.com/ai-domain-data/spec",
   schemaUrl:
-    "https://raw.githubusercontent.com/ai-domain-data/spec/main/spec/spec/schema-v0.1.json"
+    "https://ai-domain-data.org/spec/schema-v0.1.json"
 } as const;
 
-const toolTabs = [
-  { id: "generator", label: "Generator", component: <Generator /> },
-  { id: "checker", label: "Visibility Checker", component: <Checker /> }
-] as const;
-
-type ToolTabId = (typeof toolTabs)[number]["id"];
-type View = "tools" | "spec" | "contact";
-
-export default function App() {
-  const [activeTab, setActiveTab] = useState<ToolTabId>("generator");
-  const [view, setView] = useState<View>("tools");
+function Nav() {
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + "/");
 
   return (
-    <div className="app-shell">
-      <nav className="top-nav">
-        <button className="brand" onClick={() => setView("tools")}>
-          AI Domain Data Standard
-        </button>
-        <div className="nav-links">
-          <button
-            className={`nav-link ${view === "spec" ? "active" : ""}`}
-            onClick={() => setView("spec")}
-          >
-            Spec
-          </button>
-          <button
-            className={`nav-link ${view === "contact" ? "active" : ""}`}
-            onClick={() => setView("contact")}
-          >
-            Contact
-          </button>
+    <nav className="top-nav">
+      <Link to="/" className="brand">
+        AI Domain Data Standard
+      </Link>
+      <div className="nav-links">
+        <Link
+          to="/generator"
+          className={`nav-link ${isActive("/generator") ? "active" : ""}`}
+        >
+          Generator
+        </Link>
+        <Link
+          to="/checker"
+          className={`nav-link ${isActive("/checker") ? "active" : ""}`}
+        >
+          Checker
+        </Link>
+        <Link
+          to="/spec"
+          className={`nav-link ${isActive("/spec") ? "active" : ""}`}
+        >
+          Spec
+        </Link>
+        <Link
+          to="/contact"
+          className={`nav-link ${isActive("/contact") ? "active" : ""}`}
+        >
+          Contact
+        </Link>
+      </div>
+    </nav>
+  );
+}
+
+function ToolsLayout() {
+  const location = useLocation();
+  const activeTab = location.pathname === "/checker" ? "checker" : "generator";
+
+  return (
+    <>
+      <header className="app-header">
+        <div>
+          <p className="meta-pill">AI Domain Data Standard</p>
+          <h1>Publish Canonical AI Metadata</h1>
+          <p>
+            Authoritative, self-hosted identity data for any domain. Generate your
+            JSON record, validate DNS + HTTPS visibility, and reference the v0.1.1
+            spec—all without relying on a SaaS gatekeeper.
+          </p>
         </div>
-      </nav>
+        <div className="version-box">
+          <span className="meta-label">Current version </span>
+          <strong>{versionMeta.version}</strong>
+          <p>
+            {versionMeta.status} • Last updated {versionMeta.lastUpdated}
+          </p>
+        </div>
+      </header>
 
-      {view === "tools" && (
-        <>
-          <header className="app-header">
-            <div>
-              <p className="meta-pill">AI Domain Data Standard</p>
-              <h1>Publish Canonical AI Metadata</h1>
-              <p>
-                Authoritative, self-hosted identity data for any domain. Generate your
-                JSON record, validate DNS + HTTPS visibility, and reference the v0.1
-                spec—all without relying on a SaaS gatekeeper.
-              </p>
-            </div>
-            <div className="version-box">
-              <span className="meta-label">Current version </span>
-              <strong>{versionMeta.version}</strong>
-              <p>
-                {versionMeta.status} • Last updated {versionMeta.lastUpdated}
-              </p>
-            </div>
-          </header>
+      <div className="tab-list" role="tablist">
+        <Link
+          to="/generator"
+          role="tab"
+          className={`tab-button ${activeTab === "generator" ? "active" : ""}`}
+          aria-selected={activeTab === "generator"}
+        >
+          Generator
+        </Link>
+        <Link
+          to="/checker"
+          role="tab"
+          className={`tab-button ${activeTab === "checker" ? "active" : ""}`}
+          aria-selected={activeTab === "checker"}
+        >
+          Visibility Checker
+        </Link>
+      </div>
 
-          <div className="tab-list" role="tablist">
-            {toolTabs.map((tab) => (
-              <button
-                key={tab.id}
-                role="tab"
-                className="tab-button"
-                aria-selected={activeTab === tab.id}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+      <section>
+        {activeTab === "checker" ? <Checker /> : <Generator />}
+      </section>
+    </>
+  );
+}
 
-          <section>
-            {toolTabs.map((tab) => (
-              <div
-                key={tab.id}
-                role="tabpanel"
-                hidden={activeTab !== tab.id}
-                aria-labelledby={tab.id}
-              >
-                {tab.component}
-              </div>
-            ))}
-          </section>
-        </>
-      )}
-
-      {view === "spec" && (
-        <section className="standalone-section">
-          <SpecOverview meta={versionMeta} />
-        </section>
-      )}
-
-      {view === "contact" && (
-        <section className="standalone-section">
-          <ContactPanel />
-        </section>
-      )}
-    </div>
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div className="app-shell">
+        <Nav />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/generator" element={<ToolsLayout />} />
+          <Route path="/checker" element={<ToolsLayout />} />
+          <Route
+            path="/spec"
+            element={
+              <section className="standalone-section">
+                <SpecOverview meta={versionMeta} />
+              </section>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <section className="standalone-section">
+                <ContactPanel />
+              </section>
+            }
+          />
+        </Routes>
+        <Footer />
+      </div>
+      <Analytics />
+    </BrowserRouter>
   );
 }
 

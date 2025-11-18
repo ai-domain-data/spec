@@ -1,6 +1,6 @@
 # @ai-domain-data/resolver
 
-Resolve AI Domain Data records via HTTPS and DNS, then validate them against the v0.1 schema.
+Resolve AI Domain Data records via HTTPS and DNS, then validate them against the v0.1.1 schema (backward-compatible with v0.1).
 
 ```ts
 import { resolveAIDomainData } from "@ai-domain-data/resolver";
@@ -25,7 +25,7 @@ if (result.valid && result.payload) {
 
 ## Resolution order
 
-The resolver enforces the official v0.1 precedence:
+The resolver enforces the official v0.1.1 (backward-compatible with v0.1) precedence:
 
 1. Fetch `https://<domain>/.well-known/domain-profile.json`.
 2. If the HTTPS payload is unavailable or invalid, query `_ai.<domain>` via DNS TXT.

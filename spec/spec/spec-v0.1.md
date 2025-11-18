@@ -1,4 +1,4 @@
-# AI Domain Data Standard v0.1
+# AI Domain Data Standard v0.1.1
 
 ## Why this exists
 
@@ -27,10 +27,10 @@ This gives AI systems a canonical, domain-controlled source of truth with minima
 
 ## How it works
 
-1. Create JSON that matches the v0.1 schema (see examples below).
+1. Create JSON that matches the v0.1 schema (see examples below). This document describes v0.1.1, which is backward-compatible with v0.1.
 2. Host the JSON in two places so AI clients can locate it:
    - DNS TXT record `_ai.<domain>` containing a Base64-encoded payload.
-   - HTTPS endpoint `https://<domain>/.well-known/domain-profile.json` serving the plain JSON (the only HTTPS filename supported in v0.1).
+   - HTTPS endpoint `https://<domain>/.well-known/domain-profile.json` serving the plain JSON (the only HTTPS filename supported in v0.1.1, backward-compatible with v0.1).
 3. Tools in this repository (generator, checker, CLI, resolver SDK) help create, validate, and consume the records.
 
 ## Publish the DNS TXT record
@@ -80,7 +80,7 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
 }
 ```
 
-> **Note:** Early internal drafts experimented with `/.well-known/ai.json` and `/.well-known/domain.json`, but v0.1 standardizes on `/.well-known/domain-profile.json` to avoid collisions with other AI manifest formats. The DNS `_ai.<domain>` TXT record with `ai-json=<base64(JSON)>` remains the canonical discovery signal.
+> **Note:** Early internal drafts experimented with `/.well-known/ai.json` and `/.well-known/domain.json`, but v0.1.1 (backward-compatible with v0.1) standardizes on `/.well-known/domain-profile.json` to avoid collisions with other AI manifest formats. The DNS `_ai.<domain>` TXT record with `ai-json=<base64(JSON)>` remains the canonical discovery signal.
 
 ## JSON examples
 
@@ -157,17 +157,26 @@ This example demonstrates the optional `jsonld` field, which allows publishers t
 
 > **Note:** When the `jsonld` field is present, AIDD identity fields (`name`, `description`, `website`, `logo`, `contact`) still take precedence over the embedded JSON-LD values. The embedded JSON-LD serves as supplementary data for tools that require schema.org format, and can include additional fields (like `address` in this example) that aren't part of the core AIDD schema.
 
-## v0.1 JSON schema
+## Examples
 
-The canonical schema lives in [`schema-v0.1.json`](./schema-v0.1.json).
+Ready-to-use example records are available in the repository:
+
+- [`spec/examples/basic.json`](../examples/basic.json) – Minimal valid record with only required fields
+- [`spec/examples/with-jsonld.json`](../examples/with-jsonld.json) – Complete record demonstrating all optional fields including `logo`, `entity_type`, and embedded `jsonld`
+
+These examples validate against the schema and can be used as starting points for your own records.
+
+## v0.1.1 JSON schema
+
+The canonical schema lives in [`schema-v0.1.json`](./schema-v0.1.json) and is also available at `https://ai-domain-data.org/spec/schema-v0.1.json`. This document describes v0.1.1, which is backward-compatible with v0.1.
 
 Key rules:
 
-- `spec` is always the constant string `https://ai-domain-data.org/spec/v0.1`.
+- `spec` is always the constant string `https://ai-domain-data.org/spec/v0.1` (v0.1.1 is backward-compatible with v0.1, so the spec field remains `v0.1`).
 - `name`, `description`, `website`, and `contact` are required.
 - `logo` is optional (many sites do not have a logo).
-- `entity_type` is optional and not validated against a fixed enum in v0.1. Recommended values include `business`, `blog`, `personal`, `nonprofit`, `community`, `project`, `publication`, `tool`, or `other`.
-- `jsonld` is optional. If present, it must be an object containing a JSON-LD block for alignment with schema.org. Consumers can safely ignore this field if they do not process JSON-LD.
+- `entity_type` is optional. **v0.1.1 update:** MUST use schema.org `@type` values directly: `Organization`, `Person`, `Blog`, `NGO`, `Community`, `Project`, `CreativeWork`, `SoftwareApplication`, or `Thing`. See the "Recommended entity types" section below.
+- `jsonld` is optional. **v0.1.1 update:** If present, it must be an object containing a JSON-LD block for alignment with schema.org. Consumers can safely ignore this field if they do not process JSON-LD.
 - No additional properties are permitted.
 
 ## Canonicalization and formatting
@@ -185,15 +194,19 @@ Implementations MUST follow this sequence when resolving AI Domain Data:
 1. Attempt an HTTPS GET to `https://<domain>/.well-known/domain-profile.json`.
 2. If the HTTPS payload is missing, non-200, unparsable, or fails schema validation, resolve `_ai.<domain>` TXT and decode the `ai-json=<base64>` value.
 3. If neither HTTPS nor DNS produces a valid record, treat the domain as having no AI Domain Data record (`source: "none"`, `valid: false`).
-4. If both sources are present but disagree, the HTTPS payload from `/.well-known/domain-profile.json` is authoritative for v0.1; DNS serves as a fallback cache.
-5. No other `.well-known` filenames are recognized in v0.1.
+4. If both sources are present but disagree, the HTTPS payload from `/.well-known/domain-profile.json` is authoritative for v0.1.1 (backward-compatible with v0.1); DNS serves as a fallback cache.
+5. No other `.well-known` filenames are recognized in v0.1.1 (backward-compatible with v0.1).
 
 ## Tooling overview
 
-- **AI Record Generator** (`/site/generator`): Friendly form that builds JSON, validates required fields, Base64-encodes the payload, and offers one-click copy for DNS and `.well-known` outputs.
-- **AI Visibility Checker** (`/site/checker`): Accepts a domain, fetches both the HTTPS and DNS records, validates the payload against v0.1, and reports the results.
+- **AI Record Generator** (`/generator`): Friendly form that builds JSON, validates required fields, Base64-encodes the payload, and offers one-click copy for DNS and `.well-known` outputs.
+- **AI Visibility Checker** (`/checker`): Accepts a domain, fetches both the HTTPS and DNS records, validates the payload against v0.1.1 (backward-compatible with v0.1), and reports the results.
 - **CLI (`aidd`)** (`/packages/cli`): Local-first tooling to initialize, validate, and emit records.
 - **Resolver SDK** (`/packages/resolver`): Lightweight TypeScript helper to fetch, validate, and return AI Domain Data.
+
+## For integrators
+
+If you're building a plugin, CMS integration, or platform feature that adds one-click support for `domain-profile.json`, see the [Integrator Quickstart](../docs/integrator-quickstart.md) for practical implementation guidance, field mappings, error handling patterns, and versioning policy.
 
 ## Recommended entity types
 
@@ -354,14 +367,14 @@ No. Any domain owner—creators, nonprofits, open-source maintainers, communitie
 
 ## Security considerations
 
-- v0.1 records are intentionally public; do not place sensitive information in the payload.
+- v0.1.1 records (backward-compatible with v0.1) are intentionally public; do not place sensitive information in the payload.
 - Integrity is not guaranteed yet—DNS and HTTPS responses can be spoofed by attackers with network control. Future versions may add optional signatures to mitigate this.
 - DNS TXT records can be poisoned on unsecured resolvers. Where possible, validate over HTTPS first and prefer resolvers that support DNSSEC (even though the spec does not require DNSSEC today).
 - Always serve `/.well-known/domain-profile.json` over HTTPS. Enforce HSTS on your domain so clients downgrade less often.
 - Treat resolver output as untrusted input—validate against the schema every time.
 
 **Do I need to sign or encrypt the data?**  
-No. v0.1 purposefully avoids signing, key management, DNSSEC, and analytics. Those capabilities may arrive in future versions.
+No. v0.1.1 (backward-compatible with v0.1) purposefully avoids signing, key management, DNSSEC, and analytics. Those capabilities may arrive in future versions.
 
 **Can I extend the JSON with my own fields?**  
 The base schema disallows additional properties to keep agents consistent. Publishers can maintain private extensions elsewhere or propose additions for future spec revisions.

@@ -184,7 +184,7 @@ Usage:
 Commands:
   init      Create a starter domain-profile.json file with placeholder values.
             Optional fields (logo, entity_type, jsonld) are included as comments.
-  validate  Validate domain-profile.json against the v0.1 schema. Exit code 0 on success.
+  validate  Validate domain-profile.json against the v0.1.1 schema (backward-compatible with v0.1). Exit code 0 on success.
             Supports optional jsonld field for schema.org alignment.
   emit      Validate then print the JSON for /.well-known/domain-profile.json and the DNS TXT payload.
 

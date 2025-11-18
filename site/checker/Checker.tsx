@@ -278,7 +278,7 @@ export function Checker() {
       <h2 className="section-title">AI Visibility Checker</h2>
       <p className="helper-text">
         Check whether a domain exposes AI Domain Data via HTTPS and DNS, and
-        confirm the payload matches the v0.1 schema.
+        confirm the payload matches the v0.1.1 schema (backward-compatible with v0.1).
       </p>
 
       <form className="form-grid" onSubmit={handleSubmit}>

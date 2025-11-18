@@ -1,0 +1,8 @@
+{
+  "spec": "https://ai-domain-data.org/spec/v0.1",
+  "name": "Example Site",
+  "description": "A minimal valid AI Domain Data record with only required fields.",
+  "website": "https://example.com",
+  "contact": "contact@example.com"
+}
+

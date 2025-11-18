@@ -2,12 +2,13 @@
   "name": "ai-domain-data-monorepo",
   "private": true,
   "version": "0.1.0",
-  "description": "Workspace for the AI Domain Data Standard v0.1 tools and specification.",
+  "description": "Workspace for the AI Domain Data Standard v0.1.1 tools and specification.",
   "scripts": {
     "build": "npm run build --workspaces",
     "dev": "npm run dev --workspaces",
     "lint": "npm run lint --workspaces",
-    "test": "npm run test --workspaces"
+    "test": "npm run test --workspaces",
+    "test:spec": "node --test spec/tests/schema.test.mjs spec/tests/examples.test.mjs spec/tests/backward-compat.test.mjs spec/tests/edge-cases.test.mjs spec/tests/integration.test.mjs"
   },
   "workspaces": [
     "site",

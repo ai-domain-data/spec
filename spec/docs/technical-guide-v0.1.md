@@ -1,14 +1,16 @@
-# A Technical Guide to the AI Domain Data Standard v0.1
+# A Technical Guide to the AI Domain Data Standard v0.1.1
 
 AI systems increasingly act as the first point of contact between audiences and the domains they care about. Chatbots summarize brands, personal assistants vet nonprofits, and search engines remix web content into conversational answers. Yet the data powering these assistants is inconsistent. Metadata is scattered across schemas, social profiles, knowledge graphs, and unstructured web pages. The AI Domain Data Standard exists to give every domain owner—businesses, publishers, communities, creators, open-source maintainers—a uniform, self-hosted way to publish canonical facts.
 
-This document explains the technical underpinnings of the v0.1 release, how to publish compliant records, and how to integrate the standard into your toolchain.
+This document explains the technical underpinnings of the v0.1.1 release (backward-compatible with v0.1), how to publish compliant records, and how to integrate the standard into your toolchain.
+
+**Quick start:** See [`spec/examples/basic.json`](../examples/basic.json) for a minimal valid record, or [`spec/examples/with-jsonld.json`](../examples/with-jsonld.json) for a complete example with all optional fields.
 
 ---
 
 ## 1. Model overview
 
-At launch, the standard intentionally focuses on identity and ownership. The v0.1 schema is a constrained JSON document containing:
+At launch, the standard intentionally focuses on identity and ownership. The v0.1.1 schema (backward-compatible with v0.1) is a constrained JSON document containing:
 
 ```json
 {
@@ -52,7 +54,7 @@ See the [Interoperability section](../spec/spec-v0.1.md#interoperability-with-ex
 - Whitespace (indentation, newlines) is irrelevant to validity. Consumers should validate structure, not formatting.
 - Implementations MUST NOT reorder keys when relaying payloads unless they regenerate JSON from source data.
 - Preserve URLs exactly as provided—including trailing slashes, query parameters, and fragments.
-- Reject payloads containing extra top-level properties beyond those defined in v0.1.
+- Reject payloads containing extra top-level properties beyond those defined in v0.1.1 (backward-compatible with v0.1).
 
 ---
 
@@ -94,18 +96,18 @@ The standard encourages publishing both DNS and HTTPS endpoints. Well-behaved co
 
 ### 2.3 Resolution precedence
 
-All resolvers targeting v0.1 MUST follow this order:
+All resolvers targeting v0.1.1 (backward-compatible with v0.1) MUST follow this order:
 
 1. Fetch `https://<domain>/.well-known/domain-profile.json` over HTTPS.
 2. If the HTTPS resource is unavailable, returns a non-success status, or fails schema validation, query the `_ai.<domain>` TXT record.
 3. If both channels fail, treat the domain as having no AI Domain Data record.
-4. If both channels respond but contain conflicting payloads, the HTTPS payload is authoritative for v0.1. DNS is considered a fallback cache and should only be trusted when HTTPS is missing.
+4. If both channels respond but contain conflicting payloads, the HTTPS payload is authoritative for v0.1.1 (backward-compatible with v0.1). DNS is considered a fallback cache and should only be trusted when HTTPS is missing.
 
 ---
 
-## 3. Tooling included in the v0.1 rollout
+## 3. Tooling included in the v0.1.1 rollout
 
-### 3.1 AI Record Generator (`/site/generator`)
+### 3.1 AI Record Generator (`/generator`)
 
 A client-side React tool that:
 
@@ -117,7 +119,7 @@ A client-side React tool that:
 
 No network calls or persistence occur. Everything runs locally in the browser so anyone can use it without authentication.
 
-### 3.2 AI Visibility Checker (`/site/checker`)
+### 3.2 AI Visibility Checker (`/checker`)
 
 The checker accepts a domain and performs two fetches:
 
@@ -197,7 +199,7 @@ These tools stay open-source and self-hosted. They exist to reduce friction, esp
 
 ## 7. Suggested validation flow for platform partners
 
-1. **Automated discovery** – Given a domain, first attempt HTTPS fetch, then DNS query. Cache results with moderate TTL (5–15 minutes) to respect updates. If both sources respond, treat HTTPS as authoritative for v0.1.
+1. **Automated discovery** – Given a domain, first attempt HTTPS fetch, then DNS query. Cache results with moderate TTL (5–15 minutes) to respect updates. If both sources respond, treat HTTPS as authoritative for v0.1.1 (backward-compatible with v0.1).
 2. **Schema validation** – Reject records that do not match `schema-v0.1.json`. Provide actionable error messages when fields are missing or URLs are malformed.
 3. **Payload usage** – Use the data for identity and linking surfaces. Do not treat it as a comprehensive content feed—future spec versions or extensions may cover posts, feeds, or structured offers.
 4. **User overrides** – Allow platform users to re-run validation after updating their records to confirm AI surfaces stay in sync.
@@ -206,13 +208,13 @@ These tools stay open-source and self-hosted. They exist to reduce friction, esp
 
 ## 8. Looking ahead
 
-Feedback from this v0.1 cycle will determine what the next spec revision prioritizes—more entity metadata, social proofs, content references, or verification flows. The open standard remains free to implement independently.
+Feedback from this v0.1.1 cycle (backward-compatible with v0.1) will determine what the next spec revision prioritizes—more entity metadata, social proofs, content references, or verification flows. The open standard remains free to implement independently.
 
 ---
 
 ## 8.1 Security considerations
 
-- v0.1 payloads are public-facing. Do not include secrets or unpublished contact channels.
+- v0.1.1 payloads (backward-compatible with v0.1) are public-facing. Do not include secrets or unpublished contact channels.
 - Integrity is best-effort only. Attackers with network control can spoof DNS or intercept HTTP. Future versions may introduce signatures or DNSSEC guidance to harden delivery.
 - Encourage resolvers and client libraries to prioritize HTTPS fetches and enforce HSTS on publisher domains to mitigate downgrade attacks.
 - DNS TXT records are vulnerable to poisoning; clients should validate the schema on every retrieval and compare HTTP vs DNS results before trusting content.

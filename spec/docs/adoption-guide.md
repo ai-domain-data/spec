@@ -15,6 +15,8 @@ This guide helps domain owners and communications teams publish AI Domain Data r
 
 ## 2. Gather canonical identity data
 
+**Quick reference:** See [`spec/examples/basic.json`](../examples/basic.json) for a minimal record, or [`spec/examples/with-jsonld.json`](../examples/with-jsonld.json) for a complete example.
+
 Create a single source of truth for the schema fields:
 
 | Field | Source of truth |
@@ -41,7 +43,7 @@ Options:
 
 Requirements:
 
-- spec MUST equal https://ai-domain-data.org/spec/v0.1.
+- spec MUST equal https://ai-domain-data.org/spec/v0.1 (v0.1.1 is backward-compatible with v0.1, so the spec field remains `v0.1`).
 - Optional fields should be omitted when unused.
 - Additional properties are not allowed.
 

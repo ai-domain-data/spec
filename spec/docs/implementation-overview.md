@@ -6,7 +6,7 @@ This overview summarizes the reference tooling and integrations available in v0.
 
 ## 1. AI Record Generator (web)
 
-- Location: /site/generator
+- Location: /generator
 - Audience: Non-technical admins, marketers, comms teams
 - Capabilities: field validation, JSON preview, Base64/DNS generation, copy buttons
 - Deployment: React/Vite app that runs entirely client-side; host on any static site/CDN
@@ -17,7 +17,7 @@ Use this when you need a fast, guided way to author a compliant record without i
 
 ## 2. AI Visibility Checker (web)
 
-- Location: /site/checker
+- Location: /checker
 - Audience: QA and operations teams verifying adoption
 - Capabilities: fetch `/.well-known/domain-profile.json`, query `_ai.<domain>` TXT, validate against schema-v0.1.json, show canonical source
 - Deployment: Same React app as the generator (tabbed interface)
@@ -42,7 +42,7 @@ Use the CLI to automate checks, gate pull requests, or keep `domain-profile.json
 ## 4. Resolver SDK – @ai-domain-data/resolver
 
 - API: `resolveAIDomainData(domain, options) → { source, valid, payload, errors, details }`
-- Behavior: HTTPS-first resolution with DNS fallback following v0.1 precedence rules
+- Behavior: HTTPS-first resolution with DNS fallback following v0.1.1 (backward-compatible with v0.1) precedence rules
 - Audience: AI tooling vendors, analytics platforms, marketplaces
 
 Embed this library when you need to consume AI Domain Data records programmatically without recreating the fetch/validate logic.

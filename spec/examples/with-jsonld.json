@@ -1,0 +1,19 @@
+{
+  "spec": "https://ai-domain-data.org/spec/v0.1",
+  "name": "Example Organization",
+  "description": "A complete AI Domain Data record demonstrating all optional fields including logo, entity_type, and embedded JSON-LD.",
+  "website": "https://example.com",
+  "logo": "https://example.com/logo.png",
+  "contact": "contact@example.com",
+  "entity_type": "Organization",
+  "jsonld": {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Example Organization",
+    "url": "https://example.com",
+    "logo": "https://example.com/logo.png",
+    "email": "contact@example.com",
+    "description": "A complete AI Domain Data record demonstrating all optional fields including logo, entity_type, and embedded JSON-LD."
+  }
+}
+

@@ -208,7 +208,13 @@ export function Generator() {
   const dnsValue = useMemo(() => {
     const compact = JSON.stringify(payload);
     const encoded = encodeBase64(compact);
-    return formatDnsRecord(encoded);
+    const formatted = formatDnsRecord(encoded);
+    // Extract just the value part (without "_ai.example.com TXT " prefix) for copying
+    const valueOnly = formatted.record.replace(/^_ai\.example\.com\s+TXT\s+/, "");
+    return {
+      ...formatted,
+      valueOnly // Just the ai-json=... part for copying
+    };
   }, [payload]);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -362,14 +368,14 @@ export function Generator() {
         </div>
 
         <div className="form-field">
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <div className="checkbox-wrapper">
             <input
               type="checkbox"
               id="jsonldEnabled"
               checked={values.jsonldEnabled}
               onChange={(event) => handleChange("jsonldEnabled")(event.target.checked)}
             />
-            <label htmlFor="jsonldEnabled" style={{ margin: 0, cursor: "pointer" }}>
+            <label htmlFor="jsonldEnabled">
               Embed JSON-LD for schema.org alignment (optional)
             </label>
           </div>
@@ -457,24 +463,46 @@ export function Generator() {
           </div>
 
           <div className="output-block">
-            <strong>DNS TXT record (for _ai.example.com)</strong>
+            <strong>DNS TXT record</strong>
             <p className="helper-text">
-              Replace <code>example.com</code> with your domain when creating the
-              record. If the payload spans 255 characters or more, DNS requires
-              multiple quoted segments—already handled in this output.
+              <strong>Record Type:</strong> TXT<br />
+              <strong>Name:</strong> <code>_ai</code> (subdomain)<br />
+              <strong>Value to paste:</strong> (shown below)
             </p>
-            <pre>{dnsValue.record}</pre>
+            <div style={{ marginTop: "1rem" }}>
+              <strong style={{ display: "block", marginBottom: "0.5rem", fontSize: "0.875rem" }}>
+                DNS Value (copy this):
+              </strong>
+              <pre>{dnsValue.valueOnly}</pre>
+            </div>
+            <p className="helper-text" style={{ marginTop: "1rem", fontSize: "0.875rem" }}>
+              <strong>Note:</strong> When creating the DNS record, use <code>_ai</code> as the name/subdomain. 
+              If the payload spans 255 characters or more, DNS requires multiple quoted segments—already handled in this output.
+            </p>
             {dnsValue.segments.length > 1 && (
-              <p className="helper-text">
-                Some DNS providers copy segments individually. If prompted, paste
-                each value in order:{" "}
-                {dnsValue.segments.map((segment, index) => (
-                  <code key={segment}>{segment}{index < dnsValue.segments.length - 1 ? ", " : ""}</code>
-                ))}.
-              </p>
+              <div className="helper-text" style={{ marginTop: "1rem" }}>
+                <p style={{ margin: "0 0 0.5rem 0" }}>
+                  Some DNS providers copy segments individually. If prompted, paste each value in order:
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  {dnsValue.segments.map((segment, index) => (
+                    <code key={segment} style={{ 
+                      display: "block", 
+                      padding: "0.5rem", 
+                      background: "var(--color-bg-secondary)", 
+                      borderRadius: "0.5rem",
+                      wordBreak: "break-all",
+                      overflowWrap: "anywhere",
+                      fontSize: "0.875rem"
+                    }}>
+                      {index + 1}. {segment}
+                    </code>
+                  ))}
+                </div>
+              </div>
             )}
             <div className="actions">
-              <CopyButton label="Copy DNS record" value={dnsValue.record} />
+              <CopyButton label="Copy DNS value" value={dnsValue.valueOnly} />
             </div>
           </div>
         </div>

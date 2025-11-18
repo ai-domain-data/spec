@@ -1,6 +1,6 @@
 # AI Domain Data Standard — Working Repository
 
-This repository houses the v0.1 standard, reference tooling, and outreach material for the AI Domain Data initiative — the open, vendor-neutral format for authoritative domain data consumed by AI systems, search, and other automated agents. Publishers self-host their JSON record at `https://<domain>/.well-known/domain-profile.json` and optionally mirror it via `_ai.<domain>` TXT (`ai-json=<base64(JSON)>`).
+This repository houses the v0.1.1 standard (backward-compatible with v0.1), reference tooling, and outreach material for the AI Domain Data initiative — the open, vendor-neutral format for authoritative domain data consumed by AI systems, search, and other automated agents. Publishers self-host their JSON record at `https://<domain>/.well-known/domain-profile.json` and optionally mirror it via `_ai.<domain>` TXT (`ai-json=<base64(JSON)>`).
 
 ## Structure
 
@@ -59,13 +59,21 @@ Runs all test suites in `spec/tests/`:
 
 ## Specification
 
-- `spec/spec/spec-v0.1.md` – Normative spec text for the v0.1 release, including schema.org interoperability mapping and precedence rules.
-- `spec/spec/schema-v0.1.json` – Canonical JSON schema (with optional `logo`, `entity_type`, and `jsonld`).
+- `spec/spec/spec-v0.1.md` – Normative spec text for the v0.1.1 release (backward-compatible with v0.1), including schema.org interoperability mapping and precedence rules.
+- `spec/spec/schema-v0.1.json` – Canonical JSON schema (with optional `logo`, `entity_type`, and `jsonld`). Also available at `https://ai-domain-data.org/spec/schema-v0.1.json`.
+- `spec/examples/basic.json` – Minimal valid record with only required fields.
+- `spec/examples/with-jsonld.json` – Complete record demonstrating all optional fields including `logo`, `entity_type`, and embedded `jsonld`.
 - `spec/docs/introduction.md` – Plain-language overview of why the standard exists.
 - `spec/docs/technical-guide-v0.1.md` – Implementation details for publishers and integrators, including schema.org integration guidance.
 - `spec/docs/adoption-guide.md` – Rollout and governance checklist for domain owners.
 - `spec/docs/implementation-overview.md` – Summary of the included tooling.
 - `spec/docs/aidd-vs-ai-txt.md` – Comparison of AIDD and ai.txt, explaining their complementary purposes.
+
+## For Integrators
+
+If you're building a plugin, CMS integration, or platform feature that adds one-click support for `domain-profile.json`, see:
+
+- **`spec/docs/integrator-quickstart.md`** – Practical guide for plugin authors covering required/optional fields, error handling, validation, and versioning policy. Start here for implementation details.
 
 ## Roadmap alignment
 
