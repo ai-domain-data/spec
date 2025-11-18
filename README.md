@@ -16,6 +16,7 @@ site/                 React/Vite workspace for generator + visibility checker
 spec/                 Human-readable spec, schema, and outreach content
   docs/               Intro, guides, adoption resources
   spec/               Canonical spec markdown + JSON schema
+  tests/              Automated test suites (schema validation, examples, edge cases, backward compatibility)
 packages/
   cli/                `aidd` CLI for init/validate/emit workflows
   resolver/           Node/TypeScript resolver SDK
@@ -43,6 +44,18 @@ npx @ai-domain-data/cli aidd --help
 ```
 npm run build --workspace @ai-domain-data/resolver
 ```
+
+### Tests
+
+```
+npm run test:spec
+```
+
+Runs all test suites in `spec/tests/`:
+- Schema validation tests
+- Example validation tests
+- Backward compatibility tests
+- Edge case tests
 
 ## Specification
 
