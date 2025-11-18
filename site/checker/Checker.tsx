@@ -89,8 +89,50 @@ function validatePayload(payload: unknown): ValidationResult {
     }
   }
 
-  if ("entity_type" in record && typeof record.entity_type !== "string") {
-    errors.push("entity_type must be a string when provided.");
+  if ("entity_type" in record) {
+    if (typeof record.entity_type !== "string") {
+      errors.push("entity_type must be a string when provided.");
+    } else {
+      const validEntityTypes = [
+        "Organization",
+        "Person",
+        "Blog",
+        "NGO",
+        "Community",
+        "Project",
+        "CreativeWork",
+        "SoftwareApplication",
+        "Thing"
+      ];
+      if (!validEntityTypes.includes(record.entity_type)) {
+        errors.push(
+          `entity_type must be a valid schema.org @type value. Valid values: ${validEntityTypes.join(", ")}. Received: "${record.entity_type}"`
+        );
+      }
+    }
+  }
+
+  // Validate jsonld field if present
+  if ("jsonld" in record) {
+    if (typeof record.jsonld !== "object" || record.jsonld === null || Array.isArray(record.jsonld)) {
+      errors.push("jsonld must be an object when provided.");
+    } else {
+      const jsonld = record.jsonld as Record<string, unknown>;
+      
+      // Check for @context
+      if (!("@context" in jsonld)) {
+        errors.push("jsonld must include @context field.");
+      } else if (jsonld["@context"] !== "https://schema.org") {
+        errors.push('jsonld @context must equal "https://schema.org".');
+      }
+      
+      // Check for @type
+      if (!("@type" in jsonld)) {
+        errors.push("jsonld must include @type field.");
+      } else if (typeof jsonld["@type"] !== "string" || !jsonld["@type"]) {
+        errors.push("jsonld @type must be a non-empty string.");
+      }
+    }
   }
 
   return {
@@ -280,6 +322,25 @@ export function Checker() {
             ? null
             : state[state.chosenSource].validation?.valid ?? false
         )}
+        {(() => {
+          const source = state.chosenSource !== "none" ? state[state.chosenSource] : null;
+          const validation = source?.validation;
+          if (validation && !validation.valid && validation.errors.length > 0) {
+            return (
+              <div style={{ marginTop: "0.5rem" }}>
+                <strong>Validation errors:</strong>
+                <ul className="inline-list" style={{ marginTop: "0.25rem" }}>
+                  {validation.errors.map((error, idx) => (
+                    <li key={idx} className="error-text">
+                      {error}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }
+          return null;
+        })()}
         <div>
           <strong>Source used for validation:</strong>{" "}
           <span className="status-pill neutral">
@@ -307,6 +368,11 @@ export function Checker() {
               Valid JSON detected at /.well-known/domain-profile.json.
             </p>
           )}
+          {state.http.parsed && "jsonld" in state.http.parsed && (
+            <p className="helper-text" style={{ marginTop: "0.5rem" }}>
+              ✓ JSON-LD field detected. This record includes schema.org alignment for maximum compatibility.
+            </p>
+          )}
           {state.http.raw && <pre>{state.http.raw}</pre>}
           {state.http.raw && (
             <div className="actions">
@@ -328,6 +394,11 @@ export function Checker() {
           ) : (
             <p className="helper-text">
               Valid JSON recovered from <code>_ai.{domain}</code>.
+            </p>
+          )}
+          {state.dns.parsed && "jsonld" in state.dns.parsed && (
+            <p className="helper-text" style={{ marginTop: "0.5rem" }}>
+              ✓ JSON-LD field detected. This record includes schema.org alignment for maximum compatibility.
             </p>
           )}
           {state.dns.raw && <pre>{state.dns.raw}</pre>}

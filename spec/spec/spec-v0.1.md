@@ -76,7 +76,7 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
   "description": "Archive of agency-ready resources for machines and AI",
   "website": "https://example.com",
   "contact": "https://example.com/contact",
-  "entity_type": "publication"
+  "entity_type": "CreativeWork"
 }
 ```
 
@@ -93,7 +93,7 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
   "description": "Independent UX engineer showcasing projects and research",
   "website": "https://jordanlee.dev",
   "contact": "hello@jordanlee.dev",
-  "entity_type": "personal"
+  "entity_type": "Person"
 }
 ```
 
@@ -107,7 +107,7 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
   "website": "https://cacheforge.io",
   "logo": "https://cacheforge.io/img/logo.png",
   "contact": "https://github.com/cacheforge/cacheforge/discussions",
-  "entity_type": "project"
+  "entity_type": "Project"
 }
 ```
 
@@ -121,9 +121,41 @@ _ai.example.com TXT ("ai-json=eyAic3BlYyI6ICJodHRwczovL2FpLWRvbWFpbi1kYXRhLm9yZy
   "website": "https://flowly.app",
   "logo": "https://cdn.flowly.app/logo.svg",
   "contact": "support@flowly.app",
-  "entity_type": "tool"
+  "entity_type": "SoftwareApplication"
 }
 ```
+
+### Organization with embedded JSON-LD
+
+This example demonstrates the optional `jsonld` field, which allows publishers to embed full schema.org JSON-LD blocks directly within the AIDD record. This is useful for maximum compatibility with tools that only process schema.org markup, while still maintaining AIDD as the authoritative source for identity fields.
+
+```
+{
+  "spec": "https://ai-domain-data.org/spec/v0.1",
+  "name": "Ascending Web Services",
+  "description": "Veteran-owned web development, hosting & support company delivering fast, secure, SEO-optimized websites for service-based businesses",
+  "website": "https://ascendingwebservices.com",
+  "logo": "https://ascendingwebservices.com/favicon.ico",
+  "contact": "info@ascendingwebservices.com",
+  "entity_type": "Organization",
+  "jsonld": {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Ascending Web Services",
+    "url": "https://ascendingwebservices.com",
+    "logo": "https://ascendingwebservices.com/favicon.ico",
+    "email": "info@ascendingwebservices.com",
+    "description": "Veteran-owned web development, hosting & support company delivering fast, secure, SEO-optimized websites for service-based businesses",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Davenport",
+      "addressRegion": "FL"
+    }
+  }
+}
+```
+
+> **Note:** When the `jsonld` field is present, AIDD identity fields (`name`, `description`, `website`, `logo`, `contact`) still take precedence over the embedded JSON-LD values. The embedded JSON-LD serves as supplementary data for tools that require schema.org format, and can include additional fields (like `address` in this example) that aren't part of the core AIDD schema.
 
 ## v0.1 JSON schema
 
@@ -135,6 +167,7 @@ Key rules:
 - `name`, `description`, `website`, and `contact` are required.
 - `logo` is optional (many sites do not have a logo).
 - `entity_type` is optional and not validated against a fixed enum in v0.1. Recommended values include `business`, `blog`, `personal`, `nonprofit`, `community`, `project`, `publication`, `tool`, or `other`.
+- `jsonld` is optional. If present, it must be an object containing a JSON-LD block for alignment with schema.org. Consumers can safely ignore this field if they do not process JSON-LD.
 - No additional properties are permitted.
 
 ## Canonicalization and formatting
@@ -164,19 +197,155 @@ Implementations MUST follow this sequence when resolving AI Domain Data:
 
 ## Recommended entity types
 
-While the schema does not require specific values for `entity_type`, the following categories help downstream consumers organize results:
+The `entity_type` field SHOULD use schema.org `@type` values directly for maximum interoperability with existing structured data pipelines. This eliminates translation layers and makes AIDD records immediately compatible with tools that already process schema.org data.
 
-- `business`
-- `blog`
-- `personal`
-- `nonprofit`
-- `community`
-- `project`
-- `publication`
-- `tool`
-- `other`
+**Recommended values (schema.org `@type`):**
 
-Domains that do not identify with a category can omit the field entirely.
+- `Organization` - For businesses, companies, agencies, and formal organizations
+- `Person` - For personal sites, portfolios, and individual creators
+- `Blog` - For blogs and personal publishing sites
+- `NGO` - For nonprofits and non-governmental organizations
+- `Community` - For communities, forums, and collaborative groups
+- `Project` - For open-source projects, initiatives, and collaborative efforts
+- `CreativeWork` - For publications, media, and creative content
+- `SoftwareApplication` - For software tools, apps, and SaaS products
+- `Thing` - For entities that don't fit other categories
+
+Domains that do not identify with a category can omit the field entirely. Using schema.org values directly ensures seamless integration with existing SEO plugins, structured data validators, and AI systems that already consume schema.org markup.
+
+## Interoperability with existing structured data standards
+
+The AI Domain Data Standard is designed to complement, not replace, existing metadata formats like schema.org JSON-LD, Open Graph, and other structured data. This section clarifies how AIDD fields map to schema.org and how conflicts should be resolved.
+
+### AIDD to schema.org field mapping
+
+| AIDD field | Meaning | Closest schema.org mapping | Notes |
+|------------|---------|---------------------------|-------|
+| `name` | Public-facing name | `Organization.name` or `WebSite.name` | Always takes precedence if conflicting with schema.org |
+| `description` | Summary of the domain | `Organization.description` or `WebSite.description` | Short-form; preferred for AI summaries |
+| `website` | Canonical URL | `url` | Explicit canonical URI |
+| `logo` | Logo URL | `logo` | If both AIDD and schema.org exist, prefer the AIDD value |
+| `contact` | Preferred contact channel | `contactPoint`, `email` | AIDD compresses multiple schema.org fields into one simpler field |
+| `entity_type` | Type of domain | `@type` (Organization, Person, Project, etc.) | SHOULD use schema.org `@type` values directly (Organization, Person, Blog, NGO, etc.) for maximum interoperability |
+| `jsonld` | Embedded JSON-LD block | N/A (contains schema.org directly) | Optional field for embedding full schema.org JSON-LD |
+
+This mapping enables AI vendors to integrate AIDD data with their existing schema.org parsing pipelines while maintaining clear precedence rules.
+
+### Precedence and conflict resolution
+
+When both AIDD and schema.org JSON-LD are present (either embedded in the `jsonld` field or discovered separately), implementations MUST follow these precedence rules:
+
+1. **Identity fields take precedence from AIDD**: If AIDD and JSON-LD disagree on core identity fields (`name`, `description`, `website`, `logo`, `contact`), the AIDD values are authoritative. AIDD is the source-of-truth anchor for domain identity.
+
+2. **Merge complementary data**: If JSON-LD contains fields that AIDD does not (e.g., `address`, `foundingDate`, `numberOfEmployees`), AI vendors should merge the two sources. AIDD provides the canonical identity baseline; JSON-LD can enrich it with additional structured data.
+
+3. **AIDD is not a replacement for SEO schema**: The standard is designed to work alongside existing schema.org markup used for search engine optimization. Publishers should continue using JSON-LD in HTML `<script>` tags for SEO purposes. AIDD serves as a separate, domain-controlled identity record optimized for AI consumption.
+
+4. **Embedded `jsonld` field**: When the optional `jsonld` field is present in an AIDD record, it should be treated as supplementary data. The AIDD fields still take precedence for identity, but the embedded JSON-LD can provide additional context or compatibility with tools that only process schema.org.
+
+These rules create a predictable, interoperable system where AIDD provides authoritative identity data while leveraging the rich ecosystem of existing structured data standards.
+
+### Example scenarios
+
+**Scenario 1: Conflicting identity data**
+
+A domain publishes both AIDD and JSON-LD with different names:
+
+```json
+// AIDD: /.well-known/domain-profile.json
+{
+  "spec": "https://ai-domain-data.org/spec/v0.1",
+  "name": "Acme Corporation",
+  "description": "Leading provider of widgets",
+  "website": "https://acme.com",
+  "contact": "info@acme.com"
+}
+```
+
+```json
+// JSON-LD in HTML <script> tag
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Acme Corp",  // Different name
+  "url": "https://acme.com"
+}
+```
+
+**Resolution**: Use `"Acme Corporation"` from AIDD. The AIDD value is authoritative for identity fields.
+
+**Scenario 2: Complementary data merging**
+
+AIDD provides core identity, JSON-LD provides additional details:
+
+```json
+// AIDD: /.well-known/domain-profile.json
+{
+  "spec": "https://ai-domain-data.org/spec/v0.1",
+  "name": "TechStart Inc",
+  "description": "Innovative software solutions",
+  "website": "https://techstart.com",
+  "contact": "hello@techstart.com",
+  "entity_type": "Organization"
+}
+```
+
+```json
+// JSON-LD in HTML
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TechStart Inc",
+  "url": "https://techstart.com",
+  "foundingDate": "2020-01-15",
+  "numberOfEmployees": "50-100",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Main St",
+    "addressLocality": "San Francisco",
+    "addressRegion": "CA"
+  }
+}
+```
+
+**Resolution**: Use AIDD for identity (`name`, `description`, `website`, `contact`), merge JSON-LD for additional fields (`foundingDate`, `numberOfEmployees`, `address`). Result:
+
+```json
+{
+  "name": "TechStart Inc",  // From AIDD
+  "description": "Innovative software solutions",  // From AIDD
+  "website": "https://techstart.com",  // From AIDD
+  "contact": "hello@techstart.com",  // From AIDD
+  "foundingDate": "2020-01-15",  // From JSON-LD
+  "numberOfEmployees": "50-100",  // From JSON-LD
+  "address": { ... }  // From JSON-LD
+}
+```
+
+**Scenario 3: Embedded jsonld field**
+
+AIDD record includes embedded JSON-LD:
+
+```json
+// AIDD: /.well-known/domain-profile.json
+{
+  "spec": "https://ai-domain-data.org/spec/v0.1",
+  "name": "Example Publisher",
+  "description": "Independent news outlet",
+  "website": "https://example.com",
+  "contact": "editor@example.com",
+  "entity_type": "CreativeWork",
+  "jsonld": {
+    "@context": "https://schema.org",
+    "@type": "NewsMediaOrganization",
+    "name": "Example Publisher",
+    "url": "https://example.com",
+    "publishingPrinciples": "https://example.com/ethics"
+  }
+}
+```
+
+**Resolution**: Use AIDD fields for identity (`name`, `description`, `website`, `contact`). The embedded `jsonld` provides additional schema.org context (`publishingPrinciples`) that can be merged, but AIDD identity fields remain authoritative.
 
 ## Frequently asked questions
 
@@ -192,7 +361,7 @@ No. Any domain owner—creators, nonprofits, open-source maintainers, communitie
 - Treat resolver output as untrusted input—validate against the schema every time.
 
 **Do I need to sign or encrypt the data?**  
-No. v0.1 purposefully avoids signing, key management, DNSSEC, and analytics. Those capabilities may arrive in future versions or optional SaaS layers.
+No. v0.1 purposefully avoids signing, key management, DNSSEC, and analytics. Those capabilities may arrive in future versions.
 
 **Can I extend the JSON with my own fields?**  
 The base schema disallows additional properties to keep agents consistent. Publishers can maintain private extensions elsewhere or propose additions for future spec revisions.

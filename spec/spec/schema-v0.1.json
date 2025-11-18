@@ -44,7 +44,22 @@
     },
     "entity_type": {
       "type": "string",
-      "description": "Optional classification for the domain (e.g., business, blog, personal, nonprofit, community, project, publication, other)."
+      "enum": [
+        "Organization",
+        "Person",
+        "Blog",
+        "NGO",
+        "Community",
+        "Project",
+        "CreativeWork",
+        "SoftwareApplication",
+        "Thing"
+      ],
+      "description": "Optional classification for the domain. MUST use schema.org @type values directly for maximum interoperability: Organization, Person, Blog, NGO, Community, Project, CreativeWork, SoftwareApplication, or Thing. See the spec for recommended values."
+    },
+    "jsonld": {
+      "type": "object",
+      "description": "Optional embedded JSON-LD block for alignment with schema.org. Consumers can safely ignore this field if they do not process JSON-LD."
     }
   }
 }

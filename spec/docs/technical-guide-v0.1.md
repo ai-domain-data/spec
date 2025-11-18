@@ -18,7 +18,8 @@ At launch, the standard intentionally focuses on identity and ownership. The v0.
   "website": "string (URL)",
   "logo": "string (URL, optional)",
   "contact": "string (email or URL)",
-  "entity_type": "string (optional)"
+  "entity_type": "string (optional)",
+  "jsonld": "object (optional)"
 }
 ```
 
@@ -26,11 +27,26 @@ At launch, the standard intentionally focuses on identity and ownership. The v0.
 - **name** and **description** give AI systems a tight summary block to quote.
 - **website** and **contact** surface official touchpoints.
 - **logo** is optional (many sites do not have a logo). When provided, it should be a publicly accessible image URL.
-- **entity_type** is optional and exists purely for downstream classification. Suggested values: `business`, `blog`, `personal`, `nonprofit`, `community`, `project`, `publication`, `tool`, `other`.
+- **entity_type** is optional and exists purely for downstream classification. SHOULD use schema.org `@type` values directly for maximum interoperability: `Organization`, `Person`, `Blog`, `NGO`, `Community`, `Project`, `CreativeWork`, `SoftwareApplication`, or `Thing`. See the [recommended entity types](../spec/spec-v0.1.md#recommended-entity-types) section in the spec for full details.
+- **jsonld** is optional. If present, it must be an object containing a JSON-LD block for alignment with schema.org. Consumers can safely ignore this field if they do not process JSON-LD.
 
 The schema disallows additional properties. That constraint keeps the payload predictable for consumers and ensures future extensions arrive through version bumps or sanctioned add-ons rather than ad-hoc fields.
 
-### 1.1 Canonicalization guidance
+### 1.1 Interoperability with schema.org
+
+AIDD is designed to work alongside existing structured data standards, particularly schema.org JSON-LD. The spec includes a [field mapping table](../spec/spec-v0.1.md#aidd-to-schemaorg-field-mapping) that shows how AIDD fields correspond to schema.org properties, and [precedence rules](../spec/spec-v0.1.md#precedence-and-conflict-resolution) that define how conflicts should be resolved.
+
+Key points:
+- AIDD fields take precedence for identity when conflicting with schema.org
+- JSON-LD data can be merged with AIDD to provide additional context
+- The optional `jsonld` field allows embedding full schema.org JSON-LD blocks
+- `entity_type` values align with schema.org classes for easier translation
+
+**Example**: If AIDD has `"name": "Acme Corporation"` and JSON-LD has `"name": "Acme Corp"`, use the AIDD value. If JSON-LD has additional fields like `foundingDate` or `address` that AIDD doesn't include, merge those into the final result.
+
+See the [Interoperability section](../spec/spec-v0.1.md#interoperability-with-existing-structured-data-standards) in the spec for complete details and example scenarios.
+
+### 1.2 Canonicalization guidance
 
 - JSON keys MUST be strings; omit optional fields entirely instead of setting them to `null`.
 - Whitespace (indentation, newlines) is irrelevant to validity. Consumers should validate structure, not formatting.
@@ -190,7 +206,7 @@ These tools stay open-source and self-hosted. They exist to reduce friction, esp
 
 ## 8. Looking ahead
 
-Phase 5 introduces DNA.ai, an optional SaaS layer that provides authenticated dashboards, automated publishing, and (eventually) signed payloads. Importantly, the open standard remains free to implement independently. Feedback from this v0.1 cycle will determine what the next spec revision prioritizes—more entity metadata, social proofs, content references, or verification flows.
+Feedback from this v0.1 cycle will determine what the next spec revision prioritizes—more entity metadata, social proofs, content references, or verification flows. The open standard remains free to implement independently.
 
 ---
 
