@@ -113,7 +113,7 @@ async function loadRecord(targetPath) {
 
 async function createValidator() {
   const schema = await loadSchema();
-  const ajv = new Ajv({ allErrors: true, strict: false });
+  const ajv = new Ajv({ allErrors: true, strict: false, validateSchema: false });
   addFormats(ajv);
   return ajv.compile(schema);
 }
