@@ -1,13 +1,29 @@
 {
   "name": "@ai-domain-data/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Local tooling for working with the AI Domain Data Standard.",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ai-domain-data/spec.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "ai-domain-data",
+    "aidd",
+    "domain-profile",
+    "schema",
+    "validation",
+    "cli"
+  ],
+  "author": "AI Domain Data Standard Contributors",
   "bin": {
-    "aidd": "./bin/aidd.js"
+    "aidd": "bin/aidd.js"
   },
   "files": [
-    "bin"
+    "bin",
+    "schema"
   ],
   "scripts": {
     "build": "echo \"Nothing to build\"",
@@ -21,4 +37,3 @@
     "node": ">=18.17.0"
   }
 }
-

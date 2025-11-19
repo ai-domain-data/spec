@@ -7,10 +7,22 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, "..", "..", "..");
-const schemaFile = path.resolve(repoRoot, "spec", "spec", "schema-v0.1.json");
+
+async function getSchemaPath() {
+  // Try package-relative path first (when published)
+  const packagePath = path.resolve(__dirname, "..", "schema", "schema-v0.1.json");
+  try {
+    await fs.access(packagePath);
+    return packagePath;
+  } catch {
+    // Fallback to repo path (development)
+    const repoRoot = path.resolve(__dirname, "..", "..", "..");
+    return path.resolve(repoRoot, "spec", "spec", "schema-v0.1.json");
+  }
+}
 
 async function loadSchema() {
+  const schemaFile = await getSchemaPath();
   const contents = await fs.readFile(schemaFile, "utf-8");
   return JSON.parse(contents);
 }
