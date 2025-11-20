@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-do
 import { Generator } from "@generator/Generator";
 import { Checker } from "@checker/Checker";
 import { SpecOverview } from "@components/SpecOverview";
+import { SpecPage } from "@components/SpecPage";
 import { ContactPanel } from "@components/ContactPanel";
 import { LandingPage } from "@components/LandingPage";
 import { Footer } from "@components/Footer";
@@ -124,6 +125,7 @@ export default function App() {
               </section>
             }
           />
+          <Route path="/spec/v0.1" element={<SpecPage />} />
           <Route
             path="/contact"
             element={

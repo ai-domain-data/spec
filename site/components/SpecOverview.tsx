@@ -66,6 +66,18 @@ export function SpecOverview({ meta }: SpecOverviewProps) {
       </section>
 
       <section className="spec-section">
+        <h3>Full Specification</h3>
+        <p>
+          <a href="/spec/v0.1" className="spec-link">
+            Read the complete v0.1.1 specification document →
+          </a>
+        </p>
+        <p className="helper-text">
+          The full specification includes detailed field definitions, examples, resolution rules, and interoperability guidelines.
+        </p>
+      </section>
+
+      <section className="spec-section">
         <h3>Resources</h3>
         <ul className="inline-list">
           <li>

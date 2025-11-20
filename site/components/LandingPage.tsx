@@ -13,6 +13,16 @@ export function LandingPage() {
             Give AI systems, search engines, and automated agents the canonical 
             information they need—without relying on a SaaS gatekeeper.
           </p>
+          <div className="hero-benefits">
+            <p className="hero-benefits-intro">Stop AI hallucinations. Get accurate domain information.</p>
+            <ul className="hero-benefits-list">
+              <li>Reduces AI misinformation and hallucination about your domain</li>
+              <li>Improves search engine understanding and structured data accuracy</li>
+              <li>Enables reliable automated agent discovery and verification</li>
+              <li>Provides a single source of truth for domain identity</li>
+              <li>Works seamlessly with existing schema.org and SEO tools</li>
+            </ul>
+          </div>
           <div className="hero-actions">
             <Link to="/generator" className="button button-primary">
               Generate Your Record
@@ -99,6 +109,65 @@ export function LandingPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="integrations">
+        <h2>Platform Integrations</h2>
+        <p className="integrations-intro">
+          Official plugins and integrations make it easy to add AI Domain Data to your site.
+        </p>
+        <div className="integrations-grid">
+          <div className="integration-card">
+            <div className="integration-header">
+              <h3>Jekyll</h3>
+              <span className="integration-badge">Ruby Gem</span>
+            </div>
+            <p>
+              Automatically generate <code>domain-profile.json</code> during site build. 
+              Available on <a href="https://rubygems.org/gems/jekyll-ai-domain-data" target="_blank" rel="noopener noreferrer">RubyGems</a>.
+            </p>
+            <a 
+              href="https://github.com/ai-domain-data/jekyll-ai-domain-data" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="integration-link"
+            >
+              View Plugin →
+            </a>
+          </div>
+          <div className="integration-card">
+            <div className="integration-header">
+              <h3>Next.js</h3>
+              <span className="integration-badge">npm Package</span>
+            </div>
+            <p>
+              Add AI Domain Data support to Next.js apps with App Router or Pages Router. 
+              Available on <a href="https://www.npmjs.com/package/@ai-domain-data/nextjs" target="_blank" rel="noopener noreferrer">npm</a>.
+            </p>
+            <a 
+              href="https://github.com/ai-domain-data/spec/tree/main/packages/nextjs" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="integration-link"
+            >
+              View Package →
+            </a>
+          </div>
+          <div className="integration-card">
+            <div className="integration-header">
+              <h3>WordPress</h3>
+              <span className="integration-badge">Coming Soon</span>
+            </div>
+            <p>
+              WordPress plugin for automatic domain profile generation. 
+              Submit your domain data via admin settings.
+            </p>
+            <span className="integration-link disabled">In Review</span>
+          </div>
+        </div>
+        <p className="integrations-more">
+          More integrations coming soon. <a href="/contact">Request a platform</a> or <a href="https://github.com/ai-domain-data/spec" target="_blank" rel="noopener noreferrer">build your own</a>.
+        </p>
       </section>
 
       <section className="cta">
