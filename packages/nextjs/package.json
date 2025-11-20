@@ -1,0 +1,73 @@
+{
+  "name": "@ai-domain-data/nextjs",
+  "version": "0.1.1",
+  "description": "Next.js integration for the AI Domain Data Standard. Add domain-profile.json to your Next.js site with App Router or Pages Router support.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./app-router": {
+      "import": "./dist/app-router.js",
+      "types": "./dist/app-router.d.ts"
+    },
+    "./pages-router": {
+      "import": "./dist/pages-router.js",
+      "types": "./dist/pages-router.d.ts"
+    },
+    "./generate": {
+      "import": "./dist/generate.js",
+      "types": "./dist/generate.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "schema",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Tests coming soon\""
+  },
+  "keywords": [
+    "ai-domain-data",
+    "aidd",
+    "domain-profile",
+    "nextjs",
+    "next.js",
+    "app-router",
+    "pages-router",
+    "api-route",
+    "schema",
+    "validation"
+  ],
+  "author": "AI Domain Data Standard Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ai-domain-data/spec.git",
+    "directory": "packages/nextjs"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "next": "^14.0.0",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "next": ">=13.0.0",
+    "react": ">=18.0.0"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}
+

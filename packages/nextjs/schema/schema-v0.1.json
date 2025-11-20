@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-domain-data.org/spec/schema-v0.1.json",
+  "title": "AI Domain Data v0.1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec",
+    "name",
+    "description",
+    "website",
+    "contact"
+  ],
+  "properties": {
+    "spec": {
+      "type": "string",
+      "const": "https://ai-domain-data.org/spec/v0.1",
+      "description": "Canonical URL for the AI Domain Data specification version."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Public-facing name for the site, organization, or publisher."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Concise description used by AI agents to understand the domain."
+    },
+    "website": {
+      "type": "string",
+      "format": "uri",
+      "description": "Primary website URL for the domain."
+    },
+    "logo": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional URL to a logo or representative image."
+    },
+    "contact": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Preferred contact point (email or URL)."
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "Organization",
+        "Person",
+        "Blog",
+        "NGO",
+        "Community",
+        "Project",
+        "CreativeWork",
+        "SoftwareApplication",
+        "Thing"
+      ],
+      "description": "Optional classification for the domain. MUST use schema.org @type values directly for maximum interoperability: Organization, Person, Blog, NGO, Community, Project, CreativeWork, SoftwareApplication, or Thing. See the spec for recommended values."
+    },
+    "jsonld": {
+      "type": "object",
+      "description": "Optional embedded JSON-LD block for alignment with schema.org. Consumers can safely ignore this field if they do not process JSON-LD."
+    }
+  }
+}
+
