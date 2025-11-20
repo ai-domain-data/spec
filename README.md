@@ -20,6 +20,7 @@ spec/                 Human-readable spec, schema, and outreach content
 packages/
   cli/                `aidd` CLI for init/validate/emit workflows
   resolver/           Node/TypeScript resolver SDK
+  nextjs/             Next.js integration package (@ai-domain-data/nextjs)
 LICENSE               MIT License
 ```
 
@@ -74,6 +75,75 @@ Runs all test suites in `spec/tests/`:
 If you're building a plugin, CMS integration, or platform feature that adds one-click support for `domain-profile.json`, see:
 
 - **`spec/docs/integrator-quickstart.md`** – Practical guide for plugin authors covering required/optional fields, error handling, validation, and versioning policy. Start here for implementation details.
+
+## Integrations & Plugins
+
+Add AI Domain Data support to your site in minutes with our official integrations. Each package handles validation, generation, and deployment automatically.
+
+### Next.js
+
+**`@ai-domain-data/nextjs`** – Add `domain-profile.json` to your Next.js site with zero configuration. Supports both App Router and Pages Router.
+
+```bash
+npm install @ai-domain-data/nextjs
+```
+
+**Features:**
+- Automatic route generation for `/.well-known/domain-profile.json`
+- Environment variable support with smart defaults
+- Full TypeScript support with type-safe configuration
+- Built-in schema validation
+- Works with Next.js 13+ (App Router) and Next.js 12 (Pages Router)
+
+**Quick Start:**
+```typescript
+// app/.well-known/domain-profile.json/route.ts
+import { createAIDomainDataRoute } from "@ai-domain-data/nextjs/app-router";
+
+export const GET = createAIDomainDataRoute({ useEnv: true });
+```
+
+**[Install on npm](https://www.npmjs.com/package/@ai-domain-data/nextjs)** | **[Full Documentation](packages/nextjs/README.md)** | 🔗 **[GitHub](https://github.com/ai-domain-data/spec/tree/main/packages/nextjs)**
+
+---
+
+### Jekyll
+
+**`jekyll-ai-domain-data`** – Automatically generate and validate `domain-profile.json` during Jekyll site builds. Zero manual file management required.
+
+```ruby
+gem "jekyll-ai-domain-data"
+```
+
+**Features:**
+- Automatic file generation during site build
+- Validates against the official schema before publishing
+- Liquid tags for embedding domain data in templates
+- Smart fallbacks to existing Jekyll configuration
+- Works with Jekyll 3.8+ and 4.x
+
+**Quick Start:**
+```yaml
+# _config.yml
+plugins:
+  - jekyll-ai-domain-data
+
+ai_domain_data:
+  contact: "hello@example.com"
+  entity_type: "Organization"
+```
+
+**[Install on RubyGems](https://rubygems.org/gems/jekyll-ai-domain-data)** | **[Full Documentation](https://github.com/ai-domain-data/jekyll-ai-domain-data#readme)** | 🔗 **[GitHub](https://github.com/ai-domain-data/jekyll-ai-domain-data)**
+
+---
+
+### More Integrations Coming Soon
+
+- **WordPress Plugin** – One-click installation for WordPress sites
+- **Cloudflare Worker** – Edge-computed domain profiles
+- **GitHub Pages Action** – Automated deployment for static sites
+
+Have a platform you'd like to see supported? [Open an issue](https://github.com/ai-domain-data/spec/issues) or [contribute an integration](spec/docs/integrator-quickstart.md).
 
 ## Roadmap alignment
 
