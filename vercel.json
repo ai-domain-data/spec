@@ -1,0 +1,26 @@
+{
+  "buildCommand": "cd site && npm install && npm run build",
+  "outputDirectory": "site/dist",
+  "rewrites": [
+    {
+      "source": "/((?!api|_next|assets|favicon|robots|sitemap|spec/schema).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/spec/schema-v0.1.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
+}
+
