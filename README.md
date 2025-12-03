@@ -5,14 +5,6 @@ This repository houses the v0.1.1 standard (backward-compatible with v0.1), refe
 ## Structure
 
 ```
-site/                 React/Vite workspace for generator + visibility checker
-  checker/            Checker-specific UI + logic
-  components/         Shared React components
-  generator/          Generator-specific UI + logic
-  src/                App shell + routing/entry files
-  styles/             Global CSS + tokens
-  index.html          Vite template
-  package.json        Workspace manifest
 spec/                 Human-readable spec, schema, and outreach content
   docs/               Intro, guides, adoption resources
   spec/               Canonical spec markdown + JSON schema
@@ -25,13 +17,6 @@ LICENSE               MIT License
 ```
 
 ## Getting started
-
-```bash
-npm install
-npm run dev --workspace @ai-domain-data/site
-```
-
-Visit `http://localhost:5173` (default Vite port) to use the generator and checker locally.
 
 ### CLI
 
