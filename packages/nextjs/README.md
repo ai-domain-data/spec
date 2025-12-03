@@ -17,6 +17,9 @@ Create `app/.well-known/domain-profile.json/route.ts`:
 ```typescript
 import { createAIDomainDataRoute } from "@ai-domain-data/nextjs/app-router";
 
+// Required if using static export (output: "export" in next.config.js)
+export const dynamic = "force-static";
+
 export const GET = createAIDomainDataRoute({
   useEnv: true,
 });
@@ -205,6 +208,28 @@ The `entity_type` field must be one of the following schema.org values:
 ## Examples
 
 See the `examples/` directory for complete working examples for both App Router and Pages Router.
+
+## Static Export Configuration
+
+If you're using Next.js static export (`output: "export"` in `next.config.js`), you need to explicitly mark the route as static:
+
+### App Router
+
+```typescript
+import { createAIDomainDataRoute } from "@ai-domain-data/nextjs/app-router";
+
+export const dynamic = "force-static";
+
+export const GET = createAIDomainDataRoute({
+  useEnv: true,
+});
+```
+
+### Pages Router
+
+Pages Router doesn't require this configuration as API routes are handled differently.
+
+**Note:** This is required for static export because Next.js needs to know that the route should be pre-rendered at build time. Without this, you'll get a build error: `export const dynamic = "force-static"/export const revalidate not configured on route`.
 
 ## Requirements
 

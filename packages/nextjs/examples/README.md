@@ -77,6 +77,22 @@ export default createAIDomainDataHandler({
 });
 ```
 
+## Static Export
+
+If you're using Next.js static export (`output: "export"` in `next.config.js`), add `export const dynamic = "force-static";` to your route file:
+
+```typescript
+import { createAIDomainDataRoute } from "@ai-domain-data/nextjs/app-router";
+
+export const dynamic = "force-static";
+
+export const GET = createAIDomainDataRoute({
+  useEnv: true,
+});
+```
+
+This tells Next.js to pre-render the route at build time, which is required for static export.
+
 ## Notes
 
 - The file will be available at `https://yoursite.com/.well-known/domain-profile.json`
