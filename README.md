@@ -122,9 +122,48 @@ ai_domain_data:
 
 ---
 
+### WordPress
+
+**`ai-domain-data`** – One-click installation for WordPress sites. Automatically generates and serves `domain-profile.json` via REST API.
+
+```bash
+# Install from WordPress.org
+# Or: wp plugin install ai-domain-data --activate
+```
+
+**Features:**
+- Admin interface under Settings → AI Domain Data
+- Automatic generation from WordPress site settings
+- REST API endpoint for `/.well-known/domain-profile.json`
+- Built-in validation and DNS instructions
+- Smart defaults from your WordPress configuration
+
+**[Install from WordPress.org](https://wordpress.org/plugins/ai-domain-data/)** | **[Full Documentation](https://github.com/ai-domain-data/wordpress-ai-domain-data#readme)** | 🔗 **[GitHub](https://github.com/ai-domain-data/wordpress-ai-domain-data)**
+
+---
+
+### GitHub Action
+
+**`ai-domain-data-validate-action`** – Validate `domain-profile.json` files in CI/CD workflows. Automatically blocks merges when the AI Domain Data record doesn't match the schema.
+
+```yaml
+- uses: ai-domain-data/ai-domain-data-validate-action@v0.1.1
+  with:
+    path: domain-profile.json
+```
+
+**Features:**
+- Validates against the official AI Domain Data Standard schema
+- Fails workflows on validation errors
+- Works with any repository that stores `domain-profile.json`
+- Supports custom file paths
+
+**[View on GitHub](https://github.com/ai-domain-data/ai-domain-data-validate-action)** | **[Use in Workflows](https://github.com/ai-domain-data/ai-domain-data-validate-action#usage)**
+
+---
+
 ### More Integrations Coming Soon
 
-- **WordPress Plugin** – One-click installation for WordPress sites
 - **Cloudflare Worker** – Edge-computed domain profiles
 - **GitHub Pages Action** – Automated deployment for static sites
 
@@ -138,5 +177,5 @@ This working repo covers everything required for Phases 1–3:
 2. **Distribution + Influencers** – Clarity and outreach resources for getting the spec adopted.
 3. **Minimal Implementation** – CLI and resolver packages for self-hosted workflows.
 
-Future integrations (e.g., WordPress plugin, GitHub Action, Cloudflare Worker) will also land here once they are ready for public testing.
+The WordPress plugin and GitHub Action are now available. Future integrations (e.g., Cloudflare Worker) will also land here once they are ready for public testing.
 

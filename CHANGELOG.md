@@ -5,6 +5,19 @@ All notable changes to the AI Domain Data Standard will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **WordPress Plugin**: Official WordPress plugin now available at [wordpress.org/plugins/ai-domain-data](https://wordpress.org/plugins/ai-domain-data/). Provides admin interface for generating and serving `domain-profile.json` via REST API.
+- **GitHub Action**: Official GitHub Action [`ai-domain-data-validate-action`](https://github.com/ai-domain-data/ai-domain-data-validate-action) now available for validating `domain-profile.json` files in CI/CD workflows.
+
+### Documentation
+
+- Updated all documentation to reflect WordPress plugin and GitHub Action availability
+- Moved WordPress plugin from roadmap to available integrations section
+- Updated implementation overview and technical guide with current integration status
+
 ## [0.1.1] - 2025-11-18
 
 ### Added

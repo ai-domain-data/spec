@@ -57,21 +57,23 @@ Embed this library when you need to consume AI Domain Data records programmatica
 - Usage snippet:
 
   ```yaml
-  - uses: ai-domain-data/ai-domain-data-validate-action@v0
+  - uses: ai-domain-data/ai-domain-data-validate-action@v0.1.1
     with:
       path: domain-profile.json
   ```
 
 - Audience: Repositories that store `domain-profile.json` alongside code/content
 
-Use this to block merges when the AI Domain Data record drifts from the schema. Tag `v0` always points to the latest compatible release (currently `v0.1.0`).
+Use this to block merges when the AI Domain Data record drifts from the schema. Tag `v0.1.1` is the latest stable release, or use `v0` to always get the latest compatible version.
 
 ---
 
-## 6. WordPress Plugin (Phase 4 deliverable)
+## 6. WordPress Plugin
 
+- **Available now:** [Install from WordPress.org](https://wordpress.org/plugins/ai-domain-data/)
 - Features: Admin page under **Settings → AI Domain Data**, form-driven creation of `domain-profile.json`, DNS instructions, local tester
-- Storage: Writes to `wp-content/uploads/ai-domain-data/domain-profile.json` (or `/.well-known/domain-profile.json` if configured)
+- Storage: Serves `/.well-known/domain-profile.json` via REST API endpoint
+- GitHub: https://github.com/ai-domain-data/wordpress-ai-domain-data
 
 Ideal for site owners who prefer a CMS-native workflow.
 

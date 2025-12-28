@@ -162,11 +162,11 @@ Tool builders can plug this into their products without reimplementing the looku
 
 Once the core spec gains traction, Phase 4 introduces optional ecosystem helpers:
 
-- **WordPress plugin** – Admin UI that stores the JSON file and prints DNS instructions.
-- **GitHub Action** – Use [`ai-domain-data-validate-action`](https://github.com/ai-domain-data/ai-domain-data-validate-action) in CI to run `aidd validate` automatically:
+- **WordPress plugin** – [Available now](https://wordpress.org/plugins/ai-domain-data/). Admin UI that serves the JSON file via REST API and prints DNS instructions.
+- **GitHub Action** – [Available now](https://github.com/ai-domain-data/ai-domain-data-validate-action). Use `ai-domain-data-validate-action` in CI to run `aidd validate` automatically:
 
   ```yaml
-  - uses: ai-domain-data/ai-domain-data-validate-action@v0
+  - uses: ai-domain-data/ai-domain-data-validate-action@v0.1.1
     with:
       path: domain-profile.json
   ```

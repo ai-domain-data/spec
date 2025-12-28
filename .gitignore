@@ -31,3 +31,6 @@ cloudflare-worker/
 github-action/
 wordpress-plugin/
 
+# Site directory (deployed directly to SiteGround, not tracked in repo)
+site/
+
