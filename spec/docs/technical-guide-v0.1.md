@@ -170,7 +170,7 @@ Once the core spec gains traction, Phase 4 introduces optional ecosystem helpers
     with:
       path: domain-profile.json
   ```
-- **Cloudflare Worker template** – CDN-ready `.well-known/domain-profile.json` service backed by KV.
+- **Cloudflare Worker** – [Available now](https://github.com/ai-domain-data/cloudflare-worker-ai-domain-data). Production-ready Worker for serving `/.well-known/domain-profile.json` at the edge. Configurable via environment variables or Cloudflare KV, with built-in validation and CORS headers.
 
 These tools stay open-source and self-hosted. They exist to reduce friction, especially for non-technical teams, without forcing anyone into a centralized service.
 

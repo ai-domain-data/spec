@@ -79,10 +79,15 @@ Ideal for site owners who prefer a CMS-native workflow.
 
 ---
 
-## 7. Cloudflare Worker Template (Phase 4 deliverable)
+## 7. Cloudflare Worker
 
-- Behavior: Serves `/.well-known/domain-profile.json` from Workers KV with appropriate headers and caching
-- Use cases: Global edge hosting, redundancy, or when origin environments can’t expose .well-known
+- **Available now:** [GitHub Repository](https://github.com/ai-domain-data/cloudflare-worker-ai-domain-data)
+- Behavior: Serves `/.well-known/domain-profile.json` from environment variables or Workers KV with appropriate headers and caching
+- Features: Built-in schema validation, CORS headers, TypeScript support, configurable via environment variables or KV storage
+- Use cases: Global edge hosting, redundancy, or when origin environments can't expose .well-known
+- Installation: Clone the repository, configure environment variables in `wrangler.toml`, and deploy with `npm run deploy`
+
+Ideal for sites using Cloudflare Workers or needing edge-computed domain profiles.
 
 ---
 

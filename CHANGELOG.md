@@ -11,11 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **WordPress Plugin**: Official WordPress plugin now available at [wordpress.org/plugins/ai-domain-data](https://wordpress.org/plugins/ai-domain-data/). Provides admin interface for generating and serving `domain-profile.json` via REST API.
 - **GitHub Action**: Official GitHub Action [`ai-domain-data-validate-action`](https://github.com/ai-domain-data/ai-domain-data-validate-action) now available for validating `domain-profile.json` files in CI/CD workflows.
+- **Cloudflare Worker**: Official Cloudflare Worker [`cloudflare-worker-ai-domain-data`](https://github.com/ai-domain-data/cloudflare-worker-ai-domain-data) now available for serving `domain-profile.json` at the edge. Supports environment variable configuration and optional KV storage.
 
 ### Documentation
 
-- Updated all documentation to reflect WordPress plugin and GitHub Action availability
-- Moved WordPress plugin from roadmap to available integrations section
+- Updated all documentation to reflect WordPress plugin, GitHub Action, and Cloudflare Worker availability
+- Moved WordPress plugin and Cloudflare Worker from roadmap to available integrations section
 - Updated implementation overview and technical guide with current integration status
 
 ## [0.1.1] - 2025-11-18

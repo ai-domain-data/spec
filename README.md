@@ -162,9 +162,33 @@ ai_domain_data:
 
 ---
 
+### Cloudflare Worker
+
+**`cloudflare-worker-ai-domain-data`** – Production-ready Cloudflare Worker for serving `domain-profile.json` at the edge. Configure via environment variables or Cloudflare KV.
+
+**Features:**
+- Serves `/.well-known/domain-profile.json` with proper CORS headers
+- Configurable via environment variables or Cloudflare KV
+- Built-in schema validation
+- TypeScript with full type safety
+- Production-ready with proper caching headers
+
+**Quick Start:**
+```bash
+# Install dependencies
+npm install
+
+# Configure in wrangler.toml
+# Deploy
+npm run deploy
+```
+
+**[View on GitHub](https://github.com/ai-domain-data/cloudflare-worker-ai-domain-data)** | **[Full Documentation](https://github.com/ai-domain-data/cloudflare-worker-ai-domain-data#readme)**
+
+---
+
 ### More Integrations Coming Soon
 
-- **Cloudflare Worker** – Edge-computed domain profiles
 - **GitHub Pages Action** – Automated deployment for static sites
 
 Have a platform you'd like to see supported? [Open an issue](https://github.com/ai-domain-data/spec/issues) or [contribute an integration](spec/docs/integrator-quickstart.md).
@@ -177,5 +201,5 @@ This working repo covers everything required for Phases 1–3:
 2. **Distribution + Influencers** – Clarity and outreach resources for getting the spec adopted.
 3. **Minimal Implementation** – CLI and resolver packages for self-hosted workflows.
 
-The WordPress plugin and GitHub Action are now available. Future integrations (e.g., Cloudflare Worker) will also land here once they are ready for public testing.
+The WordPress plugin, GitHub Action, and Cloudflare Worker are now available. Future integrations will also land here once they are ready for public testing.
 
